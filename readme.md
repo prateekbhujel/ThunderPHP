@@ -1,8 +1,8 @@
-# ThunderPHP - A Plugin-Based PHP MVC Framework
-
 <div align="center">
   <img src="logo.png" alt="ThunderPHP Logo" width="500">
 </div>
+
+# ThunderPHP - A Plugin-Based PHP MVC Framework
 
 ThunderPHP is a PHP MVC (Model-View-Controller) framework designed to accelerate your web development projects by harnessing the power of plugins. Unlike starting from scratch with every project, ThunderPHP allows you to build upon a solid foundation, combining the flexibility of WordPress with the simplicity of lightweight frameworks like CodeIgniter.
 
