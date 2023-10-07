@@ -6,6 +6,6 @@
 	<title></title>
 </head>
 <body>
-
+	<h1 style="color: hotpink; margin: auto; font-size: 110px;"> ThunderPHP</h1>
 </body>
 </html>
