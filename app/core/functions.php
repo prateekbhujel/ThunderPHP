@@ -62,12 +62,16 @@ function load_plugins($plugin_folders)
 }
 
 
-/* This function adds the action prescribed to it. */
-function add_action(string $hook, mixed $func): bool
+/* This function adds the action prescribed to it with function and sets the priority level. */
+function add_action(string $hook, mixed $func, int $priority = 10): bool
 {
+
 	global $ACTIONS;
 
-	$ACTIONS[$hook] = $func;
+	while(!empty($ACTIONS[$hook][$priority])) {
+		$priority++;
+	}
+	$ACTIONS[$hook][$priority] = $func;
 
 	return true;
 }
@@ -80,7 +84,10 @@ function do_action(string $hook, array $data = [])
 
 	if(!empty($ACTIONS[$hook]))
 	{
-		$ACTIONS[$hook]($data);
+		ksort($ACTIONS[$hook]);
+		foreach($ACTIONS[$hook] as $key => $func) {
+			$func($data);
+		}
 	}
 }
 
@@ -102,9 +109,9 @@ function do_filter()
 /** Show the debugged data in a nice format **/
 function dd($data)
 {
-	echo"<div style='margin: 1px; background-color: #444; color: white; padding: 5px 10px'>";
+	echo"<pre><div style='margin: 1px; background-color: #444; color: white; padding: 5px 10px'>";
 	print_r($data);
-	echo'</div>';
+	echo'</div></pre>';
 }
 
 
