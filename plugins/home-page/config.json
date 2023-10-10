@@ -1,0 +1,12 @@
+{
+    "name": "Home Page",
+    "id": "home-page",
+    "author": "Your Name",
+    "thumbnail": "thumbnail.jpg",
+    "active": true,
+    "index": 1,
+    "routes": {
+        "on": ["home"],
+        "off": []
+    }
+}
