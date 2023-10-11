@@ -1,8 +1,5 @@
 <?php
 
-$user = new user();
-
-dd(plugin_dir());
 
 add_action('controller', function() {
 	

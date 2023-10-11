@@ -1,7 +1,6 @@
 <?php
-dd(plugin_dir());
 
-
+ 	
 add_action('view', function() {
 
 });
