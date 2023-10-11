@@ -1,6 +1,99 @@
 <?php
 
 /**
+ * Sets the value and pass it to,
+ *  The controller and View of Plugin. 
+ */
+function set_value(string|array $key, mixed $value = ''):bool
+{
+    global $USER_DATA;
+
+    $called_from = debug_backtrace();
+    $ikey         = array_search(__FUNCTION__, array_column($called_from, 'function'));
+    $path        = get_plugin_dir(debug_backtrace()[$ikey]['file']). 'config.json';
+
+    if(file_exists($path))
+    {
+        $json      = json_decode(file_get_contents($path));
+        $plugin_id = $json->id;
+        
+        if(is_array($key))
+        {   
+            foreach($key as $k => $value) {
+
+                $USER_DATA[$plugin_id][$k] = $value;
+            }
+        }else {
+
+            $USER_DATA[$plugin_id][$key] = $value;
+        }
+        
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Gets the value which was passed it,
+ *   via controller and View of Plugin. 
+ */
+function get_value(string $key = ''):mixed
+{
+    global $USER_DATA;
+
+    $called_from = debug_backtrace();
+    $ikey         = array_search(__FUNCTION__, array_column($called_from, 'function'));
+    $path        = get_plugin_dir(debug_backtrace()[$ikey]['file']). 'config.json';
+
+    if(file_exists($path))
+    {
+        $json      = json_decode(file_get_contents($path));
+        $plugin_id = $json->id;
+
+        if(empty($key))
+            return $USER_DATA[$plugin_id];
+
+        return !empty($USER_DATA[$plugin_id][$key]) ? $USER_DATA[$plugin_id][$key] : null;
+    }
+
+    return null;
+}
+
+/**
+ * Loads the app thingy and returns,
+ *  the inputed files or plugins, if found.
+ */
+function APP($key = '')
+{   
+    global $APP;
+
+    if(!empty($key))
+    {
+        return !empty($APP[$key]) ? $APP[$key] : null;
+    } else {
+
+        return $APP;
+    }
+
+    return null;
+}
+
+/**
+ *  Shows what plugins are loaded in your current page.
+ *      Good for debugging.
+*/
+function show_plugins()
+{
+    global $APP;
+    
+    $plugin_names = array_column($APP['plugins'], 'name');
+
+    dd( $plugin_names ?? []);
+
+}
+
+/**
  * Splits the query string of the URL.
  */
 function split_url($url)
