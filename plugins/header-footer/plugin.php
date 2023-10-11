@@ -2,8 +2,10 @@
 
 
 add_action('controller', function() {
-	
-	dd($_POST);
+
+	$arr = ['name'=>'Bella Bhujel', 'age'=>23];
+
+	set_value($arr);
 
 });
 
@@ -13,12 +15,9 @@ add_action('after_view', function() {
 });
 
 add_action('view', function() {
-	echo"<form method='post' style='width:400px; margin: auto; text-align:center; margin-top:50px'>
+	
+	dd(get_value());
 
-			<input placeholder='email'/><br>
-			<input placeholder='password'/><br><br>
-			<button>Login</button>
-		</form>";
 });
 
 add_action('before_view', function() {
