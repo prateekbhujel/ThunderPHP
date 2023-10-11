@@ -189,8 +189,10 @@ function redirect($url)
  */
 function plugin_dir()
 {
-	return debug_backtrace(); 
-    return get_plugin_dir(__FILE__);
+    $called_from = debug_backtrace();
+    $key = array_search(__FUNCTION__, array_column($called_from, 'function'));
+    
+    return get_plugin_dir(debug_backtrace()[$key]['file']);
 }
 
 /**
@@ -198,7 +200,10 @@ function plugin_dir()
  */
 function plugin_http_dir()
 {
-    // Your plugin HTTP directory logic goes here
+    $called_from = debug_backtrace();
+    $key = array_search(__FUNCTION__, array_column($called_from, 'function'));
+    
+    return ROOT. DS . get_plugin_dir(debug_backtrace()[$key]['file']);
 }
 
 /**
