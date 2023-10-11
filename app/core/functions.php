@@ -185,7 +185,7 @@ function redirect($url)
 }
 
 /**
- * Returns the absolute path useful for CSS and more.
+ * Returns the absolute path useful for requiring and including an file.
  */
 function plugin_dir()
 {
@@ -196,7 +196,7 @@ function plugin_dir()
 }
 
 /**
- * Returns the absolute HTTP path useful for images and more.
+ * Returns the absolute HTTP path useful for images and css or more.
  */
 function plugin_http_dir()
 {
