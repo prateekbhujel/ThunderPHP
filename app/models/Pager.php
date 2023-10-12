@@ -2,6 +2,8 @@
 
 namespace Core;
 
+defined('ROOT') or die('Direct script access denied');
+
 /**
  * Pager Class This one is for pagination 
  */
