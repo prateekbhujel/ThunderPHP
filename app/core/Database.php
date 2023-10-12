@@ -107,7 +107,3 @@ class Database
         return false;
     }
 }
-
-// Do commit (master) merge with main
-
-// up next video 13 plugin php 
