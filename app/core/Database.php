@@ -5,6 +5,8 @@ namespace Core;
 use \PDO;
 use \PDOException;
 
+define('ROOT') OR die('Direct script access denied');
+
 /**
  * Database Class
  * Manages database connections and queries.
