@@ -3,7 +3,7 @@
 namespace Core;
 
 /**
- *  Session class
+ *  Session class deals with user login and signp and thing 
  */
 
 class Session
