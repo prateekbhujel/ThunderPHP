@@ -13,10 +13,11 @@ use \Core\Database;
 class Model extends Database
 {
     public $order            = 'desc'; // The default ordering direction.
-    public $order_column     = 'id'; // The default ordering column.
-    public $limit            = 10;    // The default number of records to retrieve.
-    public $offset           = 10;    // The offset for pagination.
-    public $errors           = [];    // Stores validation errors for user input.
+    public $order_column     = 'id';   // The default ordering column.
+   	public $primary_key		 = 'id';   //Primary key of the table
+    public $limit            = 10;     // The default number of records to retrieve.
+    public $offset           = 10;     // The offset for pagination.
+    public $errors           = [];     // Stores validation errors for user input.
 
     /**
      * Retrieve records from the database based on WHERE conditions.
@@ -89,6 +90,14 @@ class Model extends Database
      */
     public function insert(array $data)
     {
+    	if(!empty($this->allowedInsertColumns))
+    	{
+    		foreach($data as $key => $value) {
+    			if(!in_array($key, $this->allowedInsertColumns))
+    				unset($data[$key]);
+    		}
+    	}
+    	
     	if(!empty($data))
     	{
     		$keys = array_keys($data);
@@ -106,9 +115,31 @@ class Model extends Database
      * @param string|int $id The ID of the record to update.
      * @param array $data    Associative array of data to be updated.
      */
-    public function update(string|int $id, array $data)
+    public function update(string|int $my_id, array $data)
     {
-        // Implementation for updating data goes here.
+        if(!empty($this->allowedUpdateColumns))
+    	{
+    		foreach($data as $key => $value) {
+    			if(!in_array($key, $this->allowedUpdateColumns))
+    				unset($data[$key]);
+    		}
+    	}
+    	
+    	if(!empty($data))
+    	{
+	    	$query  = "UPDATE $this->table ";
+    		
+    		foreach ($data as $key => $value) {
+	    		$query .= $key .'= :' .$key.',';
+    		}
+			$query  = trim($query,",");
+			$data['my_id'] = $my_id;
+
+			$query .= "WHERE $this->primary_key = :my_id";
+			return $this->query($query);
+		}
+
+		return false;
     }
 
     /**
@@ -116,8 +147,12 @@ class Model extends Database
      *
      * @param string|int $id The ID of the record to delete.
      */
-    public function delete(string|int $id)
+    public function delete(string|int $my_id)
     {
-        // Implementation for deleting data goes here.
+
+	    	$query  = "DELETE FROM $this->table ";
+			$query .= "WHERE $this->primary_key = :my_id LIMIT 1";
+
+			return $this->query($query);
     }
 }
