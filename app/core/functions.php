@@ -245,9 +245,9 @@ function add_filter()
 /**
  * Executes the filter prescribed to it.
  */
-function do_filter()
+function do_filter(string $hook, mixed $data = ''):mixed
 {
-    // Your filter execution logic goes here
+     return $data;
 }
 
 /**
