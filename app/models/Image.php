@@ -2,6 +2,9 @@
 
 namespace Core;
 
+defined('ROOT') or die('Direct script access denied');
+ 
+
 /**
  * Image Class
  *
