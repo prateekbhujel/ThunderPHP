@@ -109,6 +109,5 @@ class Database
 }
 
 // Do commit (master) merge with main
-// -- Update #12 -- 'Database Class added with comments and filter functions(do/add)filters.'
 
 // up next video 13 plugin php 
