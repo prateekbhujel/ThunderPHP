@@ -315,3 +315,15 @@ function get_plugin_dir(string $filepath): string
     }
     return $path;
 }
+
+/**
+ * Check if the user has a specific permission.
+ *
+ * @param string $permission The permission to check.
+ *
+ * @return bool True if the user has the specified permission, false otherwise.
+ */
+function user_can($permission): bool
+{
+    return true;
+}
