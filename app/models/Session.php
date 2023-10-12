@@ -54,7 +54,8 @@ class Session
      *
      * @param string $key The session key.
      *
-     * @return mixed The session data associated with the given key or false if not found.
+     * @return mixed
+     *   --The session data associated with the given key or false if not found.
      */
     public function get(string $key): mixed
     {
@@ -158,4 +159,22 @@ class Session
 
         return null;
     }
+    /**
+     * Get all information stored in the session's "var" section.
+     *
+     * This function returns all data stored in the session's "var" section, excluding user-specific data.
+     *
+     * @return mixed An array of data from the "var" section or null if the section is empty.
+     */
+    public function all(): mixed
+    {
+        $this->startSession();
+
+        if (!empty($_SESSION[$this->varKey])) {
+            return $_SESSION[$this->varKey];
+        }
+
+        return null;
+    }
+
 }
