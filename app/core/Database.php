@@ -5,7 +5,7 @@ namespace Core;
 use \PDO;
 use \PDOException;
 
-define('ROOT') OR die('Direct script access denied');
+defined('ROOT') or die('Direct script access denied');
 
 /**
  * Database Class
