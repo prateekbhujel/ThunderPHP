@@ -327,3 +327,17 @@ function user_can($permission): bool
 {
     return true;
 }
+
+
+/**
+ * Debug Die and Dump (ddd) function
+ *
+ * This function is used for debugging by displaying the value using var_dump and then terminating the script with die.
+ *
+ */
+function ddd($value = '') {
+    echo "<pre style='color: #0ff; background-color: #1d1d1d; font-size: 1.4em; width: 100%; white-space: pre-wrap; overflow: auto;'>";
+    var_dump($value);
+    echo '</pre>';
+    die;
+}
