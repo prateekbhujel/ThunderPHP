@@ -3,9 +3,11 @@
 use \Core\Database;
 
 $image = new \Core\Image;
-copy('image.jpg', 'image_resized.jpg');
+copy('image.jpg', 'image_cropped.jpg');
 
-$image->resize('image_resized.jpg');
+$image->crop('image_cropped.jpg', 100,1000);
+
+$image->getThumbnail('image.jpg', 500, 400);
 
 add_action('view', function() {
 	
