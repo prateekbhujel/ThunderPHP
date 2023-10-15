@@ -280,23 +280,23 @@ function redirect($url)
 /**
  * Returns the absolute path useful for requiring and including an file.
  */
-function plugin_dir()
+function plugin_path(string $path = '')
 {
     $called_from = debug_backtrace();
     $key = array_search(__FUNCTION__, array_column($called_from, 'function'));
     
-    return get_plugin_dir(debug_backtrace()[$key]['file']);
+    return get_plugin_dir(debug_backtrace()[$key]['file']) . $path;
 }
 
 /**
  * Returns the absolute HTTP path useful for images and css or more.
  */
-function plugin_http_dir()
+function plugin_http_path(string $path = '')
 {
     $called_from = debug_backtrace();
     $key = array_search(__FUNCTION__, array_column($called_from, 'function'));
     
-    return ROOT. DS . get_plugin_dir(debug_backtrace()[$key]['file']);
+    return ROOT. DS . get_plugin_dir(debug_backtrace()[$key]['file']) . $path;
 }
 
 /**

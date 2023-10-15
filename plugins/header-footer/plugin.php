@@ -3,26 +3,30 @@
 
 add_action('controller', function() {
 
-	$arr = ['name'=>'Bella Bhujel', 'age'=>23];
 
-	set_value($arr);
-
-});
-
-add_action('after_view', function() {
-
-	echo "<center><div style='color: brown; background-color: #dddd'>Website Copyright &#169 2023 </div></center>";
-});
-
-add_action('view', function() {
-	
-	dd(get_value());
 
 });
 
 add_action('before_view', function() {
 
-	echo "<center><div><a href=''>Home</a> | About Us | Contact Us</div></center>";
+	require plugin_path('includes\header.view.php');
 });
+
+
+add_action('view', function() {
+	
+	$limit  = 10;
+	$pager  = new \Core\Pager($limit, 2);
+	$offset = $pager->offset;
+	$pager->display();
+
+});
+
+
+add_action('after_view', function() {
+
+	require plugin_path('includes/footer.view.php');
+});
+
 
 
