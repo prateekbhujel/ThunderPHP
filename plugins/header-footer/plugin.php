@@ -1,6 +1,12 @@
 <?php
 
 
+add_filter('user_permssions', function($permission){
+
+	return $permission;
+});
+
+
 add_action('controller', function() {
 
 

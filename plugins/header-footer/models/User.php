@@ -1,10 +1,29 @@
 <?php
 
+namespace Model;
+
+defined('ROOT') or die("Direct script access denied");
+
 /**
- * User class
+ * User Model
  */
-class User
+class User extends Model
 {
+	protected $table = 'users';
+
+	protected $allowedColumns = [
+			'email',
+			'password',
+			'date_created',
+	];
+
+	protected $allowedUpdatedColumns = [
+			'email',
+			'password',
+			'date_updated',
+	];
+
+
 	
 	function __construct()
 	{

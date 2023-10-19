@@ -28,6 +28,7 @@ spl_autoload_register(function($classname)
 });
 
 require 'functions.php';
+require 'extensions.php';
 require 'Database.php';
 require 'Model.php';
 require 'App.php';

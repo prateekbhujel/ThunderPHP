@@ -34,6 +34,7 @@ function set_value(string|array $key, mixed $value = ''):bool
     return false;
 }
 
+
 /**
  * Gets the value which was passed it,
  *   via controller and View of Plugin. 
@@ -79,6 +80,7 @@ function APP($key = '')
     return null;
 }
 
+
 /**
  *  Shows what plugins are loaded in your current page.
  *      Good for debugging.
@@ -93,6 +95,7 @@ function show_plugins()
 
 }
 
+
 /**
  * Splits the query string of the URL.
  */
@@ -100,6 +103,7 @@ function split_url($url)
 {
     return explode("/", trim($url, '/'));
 }
+
 
 /**
  * Gets the value of a key from the URL configuration.
@@ -119,6 +123,7 @@ function URL($key = '')
     return '';
 }
 
+
 /**
  * Gets all the folders from the plugin folder.
  */
@@ -135,6 +140,7 @@ function get_plugin_folders()
 
     return $res;
 }
+
 
 /**
  * Loads all the plugins from the plugin folder and checks if they exist.
@@ -180,6 +186,7 @@ function load_plugins($plugin_folders)
     return $loaded;
 }
 
+
 /**
  * Validates the route to check if the plugin has the route or not.
  */
@@ -204,6 +211,7 @@ function valid_route(object $json): bool
     return false;
 }
 
+
 /**
  * Adds an action with a function and sets the priority level.
  */
@@ -218,6 +226,7 @@ function add_action(string $hook, mixed $func, int $priority = 10): bool
 
     return true;
 }
+
 
 /**
  * Executes the actions prescribed to it.
@@ -234,21 +243,41 @@ function do_action(string $hook, array $data = [])
     }
 }
 
+
 /**
  * Adds a filter for further processing.
  */
-function add_filter()
+function add_filter(string $hook, mixed $func, int $priority = 10): bool
 {
-    // Your filter implementation goes here
+    global $FILTER;
+
+    while (!empty($FILTER[$hook][$priority])) {
+        $priority++;
+    }
+    $FILTER[$hook][$priority] = $func;
+
+    return true;
 }
+
 
 /**
  * Executes the filter prescribed to it.
  */
-function do_filter(string $hook, mixed $data = ''):mixed
+function do_filter(string $hook, mixed $data = ''): mixed
 {
+    global $ACTIONS;
+
+    if (!empty($ACTIONS[$hook])) {
+
+        ksort($ACTIONS[$hook]);
+        foreach ($ACTIONS[$hook] as $key => $func) {
+            $data = $func($data);
+        }
+    }
+
      return $data;
 }
+
 
 /**
  * Displays debug data in a formatted manner.
@@ -260,6 +289,7 @@ function dd($data)
     echo '</div></pre>';
 }
 
+
 /**
  * Grabs/checks what page we are on.
  */
@@ -267,6 +297,7 @@ function page()
 {
     return URL(0);
 }
+
 
 /**
  * Redirects to the given URL.
@@ -276,6 +307,7 @@ function redirect($url)
     header("Location: " . ROOT . '/' . $url);
     die;
 }
+
 
 /**
  * Returns the absolute path useful for requiring and including an file.
@@ -288,6 +320,7 @@ function plugin_path(string $path = '')
     return get_plugin_dir(debug_backtrace()[$key]['file']) . $path;
 }
 
+
 /**
  * Returns the absolute HTTP path useful for images and css or more.
  */
@@ -298,6 +331,7 @@ function plugin_http_path(string $path = '')
     
     return ROOT. DS . get_plugin_dir(debug_backtrace()[$key]['file']) . $path;
 }
+
 
 /**
  * Gets the directory of the plugins regardless of the OS/Hosting.
@@ -316,6 +350,7 @@ function get_plugin_dir(string $filepath): string
     return $path;
 }
 
+
 /**
  * Check if the user has a specific permission.
  *
@@ -323,10 +358,76 @@ function get_plugin_dir(string $filepath): string
  *
  * @return bool True if the user has the specified permission, false otherwise.
  */
-function user_can($permission): bool
+function user_can($permission)
 {
+    global $APP;
+
     return true;
 }
+
+
+/**
+ * Get the previous value associated with the specified key after a page reload.
+ *
+ * @param string $key The key for which to retrieve the previous value.
+ * @param string $default The default value to return if the previous value is not found.
+ * @param string $type The type of input data ('post' or 'get').
+ *
+ * @return string The previous value associated with the specified key, or the default value if not found.
+ */
+function old_value(string $key, string $default = '', string $type = 'post'): string
+{
+    if ($type === 'get' && isset($_GET[$key])) {
+        return $_GET[$key];
+    } elseif ($type === 'post' && isset($_POST[$key])) {
+        return $_POST[$key];
+    }
+
+    return $default;
+}
+
+/**
+ * Get the 'selected' HTML attribute if the value matches the previous input data.
+ *
+ * @param string $key The key for which to check the value.
+ * @param string $value The value to compare.
+ * @param string $default The default value.
+ * @param string $type The type of input data ('post' or 'get').
+ *
+ * @return string The 'selected' attribute if the value matches, or an empty string if not.
+ */
+function old_select(string $key, string $value, string $default = '', string $type = 'post'): string
+{
+    if (($type === 'get' && isset($_GET[$key]) && $_GET[$key] === $value) ||
+        ($type === 'post' && isset($_POST[$key]) && $_POST[$key] === $value) ||
+        ($default === $value)) {
+        return ' selected ';
+    }
+
+    return '';
+}
+
+/**
+ * Get the 'checked' HTML attribute if the value matches the previous input data.
+ *
+ * @param string $key The key for which to check the value.
+ * @param string $value The value to compare.
+ * @param string $default The default value.
+ * @param string $type The type of input data ('post' or 'get').
+ *
+ * @return string The 'checked' attribute if the value matches, or an empty string if not.
+ */
+function old_checked(string $key, string $value, string $default = '', string $type = 'post'): string
+{
+    if (($type === 'get' && isset($_GET[$key]) && $_GET[$key] === $value) ||
+        ($type === 'post' && isset($_POST[$key]) && $_POST[$key] === $value) ||
+        ($default === $value)) {
+        return ' checked ';
+    }
+
+    return '';
+}
+
 
 
 /**
