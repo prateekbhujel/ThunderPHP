@@ -231,6 +231,9 @@ class Image
             $ext = end($ext);
 
             $dest = preg_replace("/\.$ext$/", "_thumbnail." . $ext, $filename);
+            if(file_exists($dest))
+                return $dest;
+            
             copy($filename, $dest);
 
             // Crop the thumbnail image to the specified width and height
