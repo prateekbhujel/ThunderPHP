@@ -367,70 +367,6 @@ function user_can($permission)
 
 
 /**
- * Get the previous value associated with the specified key after a page reload.
- *
- * @param string $key The key for which to retrieve the previous value.
- * @param string $default The default value to return if the previous value is not found.
- * @param string $type The type of input data ('post' or 'get').
- *
- * @return string The previous value associated with the specified key, or the default value if not found.
- */
-function old_value(string $key, string $default = '', string $type = 'post'): string
-{
-    if ($type === 'get' && isset($_GET[$key])) {
-        return $_GET[$key];
-    } elseif ($type === 'post' && isset($_POST[$key])) {
-        return $_POST[$key];
-    }
-
-    return $default;
-}
-
-/**
- * Get the 'selected' HTML attribute if the value matches the previous input data.
- *
- * @param string $key The key for which to check the value.
- * @param string $value The value to compare.
- * @param string $default The default value.
- * @param string $type The type of input data ('post' or 'get').
- *
- * @return string The 'selected' attribute if the value matches, or an empty string if not.
- */
-function old_select(string $key, string $value, string $default = '', string $type = 'post'): string
-{
-    if (($type === 'get' && isset($_GET[$key]) && $_GET[$key] === $value) ||
-        ($type === 'post' && isset($_POST[$key]) && $_POST[$key] === $value) ||
-        ($default === $value)) {
-        return ' selected ';
-    }
-
-    return '';
-}
-
-/**
- * Get the 'checked' HTML attribute if the value matches the previous input data.
- *
- * @param string $key The key for which to check the value.
- * @param string $value The value to compare.
- * @param string $default The default value.
- * @param string $type The type of input data ('post' or 'get').
- *
- * @return string The 'checked' attribute if the value matches, or an empty string if not.
- */
-function old_checked(string $key, string $value, string $default = '', string $type = 'post'): string
-{
-    if (($type === 'get' && isset($_GET[$key]) && $_GET[$key] === $value) ||
-        ($type === 'post' && isset($_POST[$key]) && $_POST[$key] === $value) ||
-        ($default === $value)) {
-        return ' checked ';
-    }
-
-    return '';
-}
-
-
-
-/**
  * Debug Die and Dump (ddd) function
  *
  * This function is used for debugging by displaying the value using var_dump and then terminating the script with die.
@@ -441,4 +377,173 @@ function ddd($value = '') {
     var_dump($value);
     echo '</pre>';
     die;
+}
+
+
+
+/**
+ * Get the previous value associated with the specified key after a page reload.
+ *
+ * @param string $key The key for which to retrieve the previous value.
+ * @param string $default The default value to return if the previous value is not found.
+ * @param string $type The request type ('post' or 'get').
+ *
+ * @return string The previous value associated with the specified key, or the default value if not found.
+ */
+function old_value(string $key, string $default = '', string $type = 'post'): string
+{
+    $array = '_POST';
+    if ($type == 'get') {
+        $array = '_GET';
+    }
+
+    if (!empty($$array[$key])) {
+        return $$array[$key];
+    }
+
+    return $default;
+}
+
+
+
+/**
+ * Generate the 'selected' attribute for an HTML select element.
+ *
+ * @param string $key The key to compare against the value.
+ * @param string $value The value to compare.
+ * @param string $default The default value to compare.
+ * @param string $type The request type ('post' or 'get').
+ *
+ * @return string The 'selected' attribute if the condition is met, or an empty string if not.
+ */
+function old_select(string $key, string $value, string $default = '', string $type = 'post'): string
+{
+    $array = '_POST';
+    if ($type == 'get') {
+        $array = '_GET';
+    }
+
+    if (!empty($$array[$key])) {
+        if ($$array[$key] == $value) {
+            return ' selected ';
+        }
+    } else {
+        if ($default == $value) {
+            return ' selected ';
+        }
+    }
+
+    return '';
+}
+
+
+
+/**
+ * Generate the 'checked' attribute for an HTML input element of type 'checkbox'.
+ *
+ * @param string $key The key to compare against the value.
+ * @param string $value The value to compare.
+ * @param string $default The default value to compare.
+ * @param string $type The request type ('post' or 'get').
+ *
+ * @return string The 'checked' attribute if the condition is met, or an empty string if not.
+ */
+function old_checked(string $key, string $value, string $default = '', string $type = 'post'): string
+{
+    $array = '_POST';
+    if ($type == 'get') {
+        $array = '_GET';
+    }
+
+    if (!empty($$array[$key])) {
+        if ($$array[$key] == $value) {
+            return ' checked ';
+        }
+    } else {
+        if ($default == $value) {
+            return ' checked ';
+        }
+    }
+
+    return '';
+}
+
+
+/**
+ * Generate a CSRF token and store it in the session.
+ *
+ * @param string $sesKey The session key for storing the CSRF token.
+ * @param int $hours The number of hours the token is valid.
+ *
+ * @return string An HTML input element with the CSRF token.
+ */
+function csrf(string $sesKey = 'csrf', int $hours = 1): string
+{
+    $key = '';
+    $ses = new \Core\Session;
+    $key = hash('sha256', time() . rand(0, 99));
+    $expires = time() + ((60 * 60) * $hours);
+
+    $ses->set($sesKey, [
+        'key' => $key,
+        'expires' => $expires
+    ]);
+
+    return "<input type='hidden' value='$key' name='$sesKey' />";
+}
+
+
+
+/**
+ * Verify the CSRF token from the submitted form data.
+ *
+ * @param array $post The form data to check for the CSRF token.
+ * @param string $sesKey The session key for the CSRF token.
+ *
+ * @return mixed Return true if the CSRF token is valid, false if not found or expired.
+ */
+function csrf_verify(array $post, string $sesKey = 'csrf'): mixed
+{
+    if (empty($post[$sesKey])) {
+        return false;
+    }
+
+    $ses = new \Core\Session;
+    $data = $ses->get($sesKey);
+
+    if (is_array($data)) {
+        if ($data['key'] !== $post[$sesKey]) {
+            return false;
+        }
+
+        if ($data['expires'] > time()) {
+            return true;
+        }
+
+        $ses->pop($sesKey);
+    }
+
+    return false;
+}
+
+
+function get_image(string $path = '', string $type = 'post')
+{
+    if(file_exists($path))
+        return ROOT. DS . $path;
+    
+
+    if($type == "post")
+        return ROOT . DS . 'assets'. DS .'images'. DS .'no_image.jpg';
+
+    if($type == "male")
+        return ROOT . DS . 'assets'. DS . 'images'. DS .'user_male.jpg';    
+
+    if($type == "female")
+        return ROOT . DS . 'assets' . DS . 'images' . DS . 'user_female.jpg';
+
+    
+    return ROOT . DS . 'assets'. DS . 'images'. DS . 'no_image.jpg';
+
+
 }

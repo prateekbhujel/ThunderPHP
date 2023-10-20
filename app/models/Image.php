@@ -14,93 +14,130 @@ class Image
 
     
 
-    /**
-     * Resize an image to fit within a maximum size while maintaining aspect ratio.
-     *
-     * @param string $filename The path to the image file.
-     * @param int $max_size    The maximum size for the longest dimension (e.g., width or height).
-     *
-     * @return string The path to the resized image or the original filename if the file doesn't exist or the type is not supported.
-     */
-    public function resize(string $filename, int $max_size = 700): string
-    {
-        if (!file_exists($filename))
-            return $filename;
-
-        $type = mime_content_type($filename);
-
-        switch ($type) {
-            case 'image/jpeg':
-                $image = imagecreatefromjpeg($filename);
-                break;
-            case 'image/png':
-                $image = imagecreatefrompng($filename);
-                break;
-            case 'image/gif':
-                $image = imagecreatefromgif($filename);
-                break;
-            case 'image/webp':
-                $image = imagecreatefromwebp($filename);
-                break;
-            default:
-                return $filename;
-                break;
-        }
-
-        $src_w = imagesx($image);
-        $src_h = imagesy($image);
-
-        if ($src_w > $src_h) {
-            if ($src_w < $max_size)
-                $max_size = $src_w;
-
-            $dst_w = $max_size;
-            $dst_h = ($src_h / $src_w) * $max_size;
-        } else {
-
-            if ($src_h < $max_size)
-                $max_size = $src_h;
-
-            $dst_h = $max_size;
-            $dst_w = ($src_w / $src_h) * $max_size;
-        }
-
-        $dst_w = round($dst_w);
-        $dst_h = round($dst_h);
-
-        $dst_image = imagecreatetruecolor($dst_w, $dst_h);
-
-        if ($type == 'image/png') 
-        {
-            imagealphablending($dst_image, false);
-            imagesavealpha($dst_image, true);
-        }
-
-        imagecopyresampled($dst_image, $image, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
-        imagedestroy($image);
-
-        switch ($type) {
-            case 'image/jpeg':
-                imagejpeg($dst_image, $filename, 90);
-                break;
-            case 'image/png':
-                imagepng($dst_image, $filename, 9);
-                break;
-            case 'image/gif':
-                imagegif($dst_image, $filename);
-                break;
-            case 'image/webp':
-                imagewebp($dst_image, $filename, 90);
-                break;
-            default:
-                return $filename;
-                break;
-        }
-
-        imagedestroy($dst_image);
-
+/**
+ * Resize an image to fit within a maximum size while maintaining aspect ratio.
+ *
+ * @param string $filename The path to the image file.
+ * @param int $max_size The maximum size for the longest dimension (e.g., width or height).
+ *
+ * @return string The path to the resized image or the original filename if the file doesn't exist or the type is not supported.
+ */
+public function resize(string $filename, int $max_size = 700): string
+{
+    if (!file_exists($filename))
         return $filename;
+
+    // Determine the MIME type of the image.
+    $type = mime_content_type($filename);
+    $angle = 0; // Initialize the angle for image rotation.
+
+    // Create an image resource based on the image's MIME type.
+    switch ($type) {
+        case 'image/jpeg':
+            $image = imagecreatefromjpeg($filename);
+            break;
+        case 'image/png':
+            $image = imagecreatefrompng($filename);
+            break;
+        case 'image/gif':
+            $image = imagecreatefromgif($filename);
+            break;
+        case 'image/webp':
+            $image = imagecreatefromwebp($filename);
+            break;
+        default:
+            return $filename; // Unsupported image type, return the original filename.
+            break;
     }
+
+    // Check for EXIF data in JPEG images to handle orientation.
+    if ($type == 'image/jpeg') {
+        $exif = @exif_read_data($filename);
+        if (!empty($exif['Orientation'])) {
+            switch ($exif['Orientation']) {
+                case 3:
+                    $angle = 180;
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    $angle = -90;
+                    break;
+                case 8:
+                    $angle = 90;
+                    break;
+                default:
+                    $angle = 0;
+                    break;
+            }
+        }
+    }
+
+    // Get the source image dimensions.
+    $src_w = imagesx($image);
+    $src_h = imagesy($image);
+
+    // Calculate the new dimensions while maintaining aspect ratio.
+    if ($src_w > $src_h) {
+        if ($src_w < $max_size)
+            $max_size = $src_w;
+
+        $dst_w = $max_size;
+        $dst_h = ($src_h / $src_w) * $max_size;
+    } else {
+        if ($src_h < $max_size)
+            $max_size = $src_h;
+
+        $dst_h = $max_size;
+        $dst_w = ($src_w / $src_h) * $max_size;
+    }
+
+    // Round the new dimensions.
+    $dst_w = round($dst_w);
+    $dst_h = round($dst_h);
+
+    // Create a new image resource for the resized image.
+    $dst_image = imagecreatetruecolor($dst_w, $dst_h);
+
+    // Handle alpha transparency for PNG images.
+    if ($type == 'image/png') {
+        imagealphablending($dst_image, false);
+        imagesavealpha($dst_image, true);
+    }
+
+    // Copy and resample the source image to the destination image.
+    imagecopyresampled($dst_image, $image, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+    imagedestroy($image);
+
+    // Rotate the image if necessary (for JPEG images).
+    if ($type == 'image/jpeg' && $angle != 0)
+        $dst_image = imagerotate($dst_image, $angle, 0);
+
+    // Save the resized image back to the original filename based on the image type.
+    switch ($type) {
+        case 'image/jpeg':
+            imagejpeg($dst_image, $filename, 90);
+            break;
+        case 'image/png':
+            imagepng($dst_image, $filename, 9);
+            break;
+        case 'image/gif':
+            imagegif($dst_image, $filename);
+            break;
+        case 'image/webp':
+            imagewebp($dst_image, $filename, 90);
+            break;
+        default:
+            return $filename; // Unsupported image type, return the original filename.
+            break;
+    }
+
+    // Destroy the destination image resource.
+    imagedestroy($dst_image);
+
+    // Return the original or resized image filename.
+    return $filename;
+}
 
 
     /**
