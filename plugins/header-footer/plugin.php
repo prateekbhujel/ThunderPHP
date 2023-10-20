@@ -24,7 +24,7 @@ add_action('view', function() {
 	$limit  = 10;
 	$pager  = new \Core\Pager($limit, 2);
 	$offset = $pager->offset;
-	$pager->display();
+	// $pager->display();
 
 });
 

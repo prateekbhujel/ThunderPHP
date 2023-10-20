@@ -67,6 +67,31 @@ class Session
         return false;
     }
 
+
+    /**
+     * Pop a value associated with the specified key from the session.
+     *
+     * This method retrieves a value from the session associated with the given key,
+     * and then removes it from the session data.
+     *
+     * @param string $key The key for which to retrieve and remove the value from the session.
+     *
+     * @return mixed|false The value associated with the specified key, or false if not found.
+     */
+    public function pop(string $key): mixed
+    {
+        $this->startSession();
+        if(!empty($_SESSION[$this->varKey][$key]))
+        {   
+            $var = $_SESSION[$this->varKey][$key];
+            unset($_SESSION[$this->varKey][$key]);
+            return $var;
+        }
+
+        return false;
+    }
+
+
     /**
      * Authenticate the user.
      *
@@ -159,6 +184,8 @@ class Session
 
         return null;
     }
+
+
     /**
      * Get all information stored in the session's "var" section.
      *
