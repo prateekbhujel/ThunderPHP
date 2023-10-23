@@ -1,3 +1,11 @@
 <?php
 
-thunder cli
+ini_set('display_errors', 1);
+
+if (PHP_SAPI !== 'cli')
+	die("This tool can only be run on command line");
+
+define ('FCPATH', __DIR__.DIRECTORY_SEPARATOR);
+chdir(FCPATH);
+
+print_r($argv);

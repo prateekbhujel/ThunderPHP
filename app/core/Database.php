@@ -14,6 +14,8 @@ defined('ROOT') or die('Direct script access denied');
 class Database
 {
     private static $query_id = '';
+    public $affected_rows    = 0;
+    public $insert_id        = 0;
 
     /**
      * Establish a database connection.
@@ -79,6 +81,9 @@ class Database
         $stm   = $con->prepare($query);
 
         $result = $stm->execute($data);
+        $this->affected_rows = $stm->rowCount();
+        $this->insert_id     = $con->lastInsertId();
+
         if ($result)
         {
             if ($data_type == 'object')
