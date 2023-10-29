@@ -90,7 +90,7 @@ class Migration extends Database
         		$values_string = ':'.implode(",:", $keys);
 
         		$query = "INSERT INTO $table ($column_string) VALUES ($values_string)";
-        		$this->query($query, $row)
+        		$this->query($query, $row);
         	}
         	
         	$this->data = [];

@@ -1,0 +1,1 @@
+/*JS sample goes here*/ 
