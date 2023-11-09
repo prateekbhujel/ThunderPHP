@@ -42,6 +42,7 @@ $plugin_style = "font-family: tahoma; color: red; margin-top: 19%;";
 $plugin_msg = "No Plugins Were Found! Please Load at least one plugin in the plugins folder.";
 
 // Check if any plugins were loaded, otherwise display a message
+// ddd($PLUGINS);
 if (!load_plugins($PLUGINS)) {
     die("<center><h1 style='$plugin_style'>$plugin_msg</h1></center>");
 }

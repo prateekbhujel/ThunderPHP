@@ -345,8 +345,10 @@ function get_plugin_dir(string $filepath): string
 
     if (strstr($path, DS . 'plugins' . DS)) {
         $parts = explode(DS . 'plugins' . DS, $path);
-        $path = 'plugins' . DS . $parts[1];
+        $parts = explode(DS, $parts[1]);
+        $path = 'plugins' . DS . $parts[0] . DS;
     }
+
     return $path;
 }
 

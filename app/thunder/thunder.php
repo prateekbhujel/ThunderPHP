@@ -10,115 +10,116 @@ defined('FCPATH') or die('Direct script access denied.');
 class Thunder
 {
     
-    /**
-     * Execute a specific Thunder command with the provided arguments.
-     *
-     * @param array $args An array of command-line arguments.
-     */
+  /**
+   * Execute a specific Thunder command with the provided arguments.
+   *
+   * @param array $args An array of command-line arguments.
+   */
     public function make(array $args)
     {
+
       $action     = $args[1] ?? null;
       $folder     = $args[2] ?? null;
-      $class_name = $args[3] ?? null;
+      $class_name   = $args[3] ?? null;
 
       if($action == 'make:plugin')
       {
         $original_folder = $folder;
-        $folder          = 'plugins/'.$folder;
+        $folder = 'plugins/'.$folder;
 
         if(file_exists($folder))
-          $this->message("That Plugin Folder Already Exists.", 'error', true);
+          $this->message("That plugin folder already exists",true);
 
-        /* Main plugin folder */
-        mkdir($folder, 077, true);
+        /*main plugin folder*/
+        mkdir($folder,0777,true);
 
         $css_folder = $folder . '/assets/css/';
-        mkdir($css_folder, 077, true);
+        mkdir($css_folder,0777,true);
 
         $js_folder = $folder . '/assets/js/';
-        mkdir($js_folder, 077, true);
-        
+        mkdir($js_folder,0777,true);
+
         $fonts_folder = $folder . '/assets/fonts/';
-        mkdir($fonts_folder, 077, true);
-        
+        mkdir($fonts_folder,0777,true);
+
         $images_folder = $folder . '/assets/images/';
-        mkdir($images_folder, 077, true);
-        
+        mkdir($images_folder,0777,true);
+
         $controller_folder = $folder . '/controllers/';
-        mkdir($controller_folder, 077, true);
-
+        mkdir($controller_folder,0777,true);
+        
         $view_folder = $folder . '/views/';
-        mkdir($view_folder, 077, true);
-
+        mkdir($view_folder,0777,true);
+        
         $migration_folder = $folder . '/migrations/';
-        mkdir($migration_folder, 077, true);
+        mkdir($migration_folder,0777,true);
         
-        $model_folder = $folder . '/models/';
-        mkdir($model_folder, 077, true);
+        $models_folder = $folder . '/models/';
+        mkdir($models_folder,0777,true);
 
-        /*Copy Files*/
+        /*copy files*/
         
-        /*Plugin Files*/
-        $plugin_file        = $folder . '/plugin.php';
+        /*plugin file*/
+        $plugin_file = $folder . '/plugin.php';
         $plugin_file_source = 'app/thunder/samples/plugin-sample.php';
         
         if(file_exists($plugin_file_source)){
           copy($plugin_file_source, $plugin_file);
-        }else {
-          $this->message("Plugin Sample File not Found in : $plugin_file_source.", 'error');
+        }else{
+          $this->message("plugin sample file not found in: ".$plugin_file_source);
         }
 
-        /*Controller Files*/
-        $controller_file        = $folder . '/controllers/controller.php';
+        /*controller file*/
+        $controller_file = $folder . '/controllers/controller.php';
         $controller_file_source = 'app/thunder/samples/controller-sample.php';
         
         if(file_exists($controller_file_source)){
           copy($controller_file_source, $controller_file);
-        }else {
-          $this->message("Controller Sample File not Found in : $controller_file_source.", 'error');
+        }else{
+          $this->message("controller sample file not found in: ".$controller_file_source);
         }
 
-        /*View File*/
-        $view_file        = $folder . '/views/view.php';
+        /*view file*/
+        $view_file = $folder . '/views/view.php';
         $view_file_source = 'app/thunder/samples/view-sample.php';
         
         if(file_exists($view_file_source)){
           copy($view_file_source, $view_file);
-        }else {
-          $this->message("View Sample File not Found in : $view_file_source." ,'error');
+        }else{
+          $this->message("view sample file not found in: ".$view_file_source);
         }
-        
-        /*JS File*/
-        $js_file        = $folder . '/assets/js/pluginjs.js';
+   
+        /*js file*/
+        $js_file = $folder . '/assets/js/plugin.js';
         $js_file_source = 'app/thunder/samples/js-sample.js';
         
         if(file_exists($js_file_source)){
           copy($js_file_source, $js_file);
-        }else {
-          $this->message("JS Sample File not Found in : $js_file_source.", 'error');
+        }else{
+          $this->message("js sample file not found in: ".$js_file_source);
         }
-        
-        /*CSS File*/
-        $css_file        = $folder . '/assets/css/style.css';
+
+        /*css file*/
+        $css_file = $folder . '/assets/css/style.css';
         $css_file_source = 'app/thunder/samples/css-sample.css';
         
         if(file_exists($css_file_source)){
           copy($css_file_source, $css_file);
-        }else {
-          $this->message("CSS Sample File not Found in : $css_file_source.", 'error');
+        }else{
+          $this->message("css sample file not found in: ".$css_file_source);
         }
-                
-        /*Config File*/
-        $config_file        = $folder . '/config.json';
+        
+        /*config file*/
+        $config_file = $folder . '/config.json';
         $config_file_source = 'app/thunder/samples/config-sample.json';
         
         if(file_exists($config_file_source)){
-          copy($config_file_source, $css_file);
-        }else {
-          $this->message("config Sample File not Found in : $config_file_source.", 'error');
+          copy($config_file_source, $config_file);
+        }else{
+          $this->message("config sample file not found in: ".$config_file_source);
         }
-
-        $this->message("Plugin : [$folder] Created Successfully !",'info'); 
+   
+        $this->message("Plugin creation complete! Plugin folder: ".$folder);  
 
       }else
       if($action == 'make:migration')
@@ -130,14 +131,10 @@ class Thunder
 
       }else
       {
-        $this->message("Unknown Make command: '$action'", 'error');
-
+        $this->message("Unknown command ". $action);
       }
-
-
-      // $this->message("This is an make function.", 'success');  
-      // echo "\n\r \033[45;37m Migration:\033[0m This is an make function.\n";  
-      // echo "\n\r \033[44;37m Model:\033[0m This is an make function.\n";    
+      
+      
     }
 
 

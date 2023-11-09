@@ -1,1 +1,0 @@
-<center><div style='color: brown; background-color: #dddd'>Website Copyright &#169 2023 </div></center>
