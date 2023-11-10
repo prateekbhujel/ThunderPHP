@@ -160,10 +160,12 @@ function load_plugins($plugin_folders)
                 if (!empty($json->active)) {
 
                     $file = 'plugins/' . $folder . '/plugin.php';
-                    if (file_exists($file) && valid_route($json)) {
+                    if (file_exists($file) && valid_route($json))
+                    {
+                        $json->index      = $json->index ?? 1;
                         $json->index_file = $file;
-                        $json->path = 'plugins/' . $folder . '/';
-                        $json->http_path = ROOT . '/' . $json->path;
+                        $json->path       = 'plugins/' . $folder . '/';
+                        $json->http_path  = ROOT . '/' . $json->path;
 
                         $APP['plugins'][] = $json;
                     }
@@ -172,7 +174,9 @@ function load_plugins($plugin_folders)
         }
     }
 
-    if (!empty($APP['plugins'])) {
+    if (!empty($APP['plugins'])) 
+    {
+        $APP['plugins'] = sort_plugins($APP['plugins']);
 
         foreach ($APP['plugins'] as $json) {
 
@@ -184,6 +188,32 @@ function load_plugins($plugin_folders)
     }
 
     return $loaded;
+}
+
+
+/**
+ *  This function sort plugins,
+ *  according to their index values.
+*/
+function sort_plugins(array $plugins): array
+{
+
+    $to_sort = [];
+    $sorted  = [];
+
+    foreach ($plugins as $key => $obj) 
+    {
+        $to_sort[$key] = $obj->index;
+    }
+
+    asort($to_sort);
+    
+    foreach ($to_sort as $key => $value) {
+        
+        $sorted [] = $plugins[$key];
+    }
+
+    return $sorted;
 }
 
 
@@ -265,12 +295,12 @@ function add_filter(string $hook, mixed $func, int $priority = 10): bool
  */
 function do_filter(string $hook, mixed $data = ''): mixed
 {
-    global $ACTIONS;
+    global $FILTER;
 
-    if (!empty($ACTIONS[$hook])) {
+    if (!empty($FILTER[$hook])) {
 
-        ksort($ACTIONS[$hook]);
-        foreach ($ACTIONS[$hook] as $key => $func) {
+        ksort($FILTER[$hook]);
+        foreach ($FILTER[$hook] as $key => $func) {
             $data = $func($data);
         }
     }

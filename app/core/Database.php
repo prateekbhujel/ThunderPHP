@@ -13,10 +13,14 @@ defined('ROOT') or die('Direct script access denied');
  */
 class Database
 {
+
     private static $query_id = '';
     public $affected_rows    = 0;
     public $insert_id        = 0;
+    public $error           = '';
+    public $has_error        = false;
 
+    
     /**
      * Establish a database connection.
      *
@@ -50,7 +54,11 @@ class Database
         return $con;
     }
 
-    // The get_row function retrieves a single result from a query.
+
+    /**
+     *  The get_row function retrieves a single,
+     *  result from a query.
+    */
     public function get_row(string $query, array $data = [], string $data_type = 'object')
     {
         $result = $this->query($query, $data, $data_type);
@@ -62,6 +70,7 @@ class Database
 
         return false;
     }
+
 
     /**
      * Execute a database query.
@@ -77,23 +86,37 @@ class Database
         $query = do_filter('before_query_query', $query);
         $data  = do_filter('after_query_data', $data);
 
+        $this->errors           = '';
+        $this->has_error        = false;
+
         $con   = $this->connect();
-        $stm   = $con->prepare($query);
 
-        $result = $stm->execute($data);
-        $this->affected_rows = $stm->rowCount();
-        $this->insert_id     = $con->lastInsertId();
-
-        if ($result)
+        try
         {
-            if ($data_type == 'object')
+            $stm   = $con->prepare($query);
+
+            $result = $stm->execute($data);
+            $this->affected_rows = $stm->rowCount();
+            $this->insert_id     = $con->lastInsertId();
+
+            if ($result)
             {
-                $rows = $stm->fetchAll(PDO::FETCH_OBJ);
+                if ($data_type == 'object')
+                {
+                    $rows = $stm->fetchAll(PDO::FETCH_OBJ);
+                }
+                else
+                {
+                    $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
+                }
+
             }
-            else
-            {
-                $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
-            }
+        } catch(PDOException $e)
+        {
+            $this->errors           = $e->getMessage();
+            $this->has_error        = true;
+        }
+
 
             $arr = [];
             $arr['query']  = $query;
@@ -109,8 +132,8 @@ class Database
             {
                 return $result;
             }
-        }
 
-        return false;
-    }
+            return false;
+        }
+    
 }

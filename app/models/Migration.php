@@ -4,7 +4,7 @@ namespace Migration;
 
 use \Core\Database;
 
-defined('ROOT') or die('Direct script access denied'); 
+defined('FCPATH') or die('Direct script access denied'); 
 
 /**
  * Migration Class
@@ -136,13 +136,35 @@ class Migration extends Database
     }
 
     
+    /**
+     * Add a unique key to the table.
+     *
+     * @param string $key The unique key to add.
+     */
+    public function adduniqueKeys(string $key)
+    {
+        $this->uniqueKeys[] = $uniqueKeys;
+    }
+
+    
+    /**
+     * Add a fulltext key to the table.
+     *
+     * @param string $key The fulltext key to add.
+     */
+    public function addfullTextKeys(string $key)
+    {
+        $this->fullTextKeys[] = $fullTextKeys;
+    }
+
+    
 
     /**
      * Add data to the table.
      *
-     * @param string $data The data to add.
+     * @param array $data The data to add.
      */
-    public function addData(string $data)
+    public function addData(array $data)
     {
         $this->data[] = $data;
     }
@@ -154,7 +176,7 @@ class Migration extends Database
      *
      * @param string $table The name of the table to drop.
      */
-    public function drop(string $table)
+    public function dropTable(string $table)
     {
        $query = "DROP TABLE IF EXISTS $table";
 

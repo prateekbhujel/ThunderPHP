@@ -5,7 +5,7 @@
     "author-webiste": "Your Website Link",
     "thumbnail": "thumbnail.jpg",
     "active": true,
-    "index": 1,
+    "index": 4,
     "routes": {
         "on": ["all"],
         "off": []
