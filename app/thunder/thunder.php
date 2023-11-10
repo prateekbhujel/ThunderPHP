@@ -28,7 +28,7 @@ class Thunder
         $folder = 'plugins/'.$folder;
 
         if(file_exists($folder))
-          $this->message("That plugin folder already exists",true);
+          $this->message("That plugin folder already exists: [$folder]",'error', true);
 
         /*main plugin folder*/
         mkdir($folder,0777,true);
@@ -66,7 +66,7 @@ class Thunder
         if(file_exists($plugin_file_source)){
           copy($plugin_file_source, $plugin_file);
         }else{
-          $this->message("plugin sample file not found in: ".$plugin_file_source);
+          $this->message("plugin sample file not found in: [".$plugin_file_source . "]", 'error', true);
         }
 
         /*controller file*/
@@ -76,7 +76,7 @@ class Thunder
         if(file_exists($controller_file_source)){
           copy($controller_file_source, $controller_file);
         }else{
-          $this->message("controller sample file not found in: ".$controller_file_source);
+          $this->message("controller sample file not found in: [".$controller_file_source . "]", 'error', true);
         }
 
         /*view file*/
@@ -86,7 +86,7 @@ class Thunder
         if(file_exists($view_file_source)){
           copy($view_file_source, $view_file);
         }else{
-          $this->message("view sample file not found in: ".$view_file_source);
+          $this->message("view sample file not found in: [".$view_file_source ."]", 'error', true);
         }
    
         /*js file*/
@@ -96,7 +96,7 @@ class Thunder
         if(file_exists($js_file_source)){
           copy($js_file_source, $js_file);
         }else{
-          $this->message("js sample file not found in: ".$js_file_source);
+          $this->message("js sample file not found in: [".$js_file_source ."]", 'error', true);
         }
 
         /*css file*/
@@ -106,7 +106,7 @@ class Thunder
         if(file_exists($css_file_source)){
           copy($css_file_source, $css_file);
         }else{
-          $this->message("css sample file not found in: ".$css_file_source);
+          $this->message("css sample file not found in: [".$css_file_source . "]", 'error', true);
         }
         
         /*config file*/
@@ -116,14 +116,47 @@ class Thunder
         if(file_exists($config_file_source)){
           copy($config_file_source, $config_file);
         }else{
-          $this->message("config sample file not found in: ".$config_file_source);
+          $this->message("config sample file not found in: [".$config_file_source . "]", 'error', true);
         }
    
-        $this->message("Plugin creation complete! Plugin folder: ".$folder);  
+        $this->message("Plugin creation complete! Plugin folder: [" . $folder . "]");  
 
       }else
       if($action == 'make:migration')
       {
+
+        $original_folder = $folder;
+        $folder = 'plugins/'.$folder . "/";
+
+        if(!file_exists($folder))
+          $this->message("Plugin folder was not found !", true);
+
+        $migration_folder = $folder . "migrations/";
+        if(!file_exists($migration_folder))
+          mkdir($migration_folder,077,true);
+
+        $file_sample = 'app/thunder/samples/migration-sample.php';
+        
+        if(!file_exists($file_sample))
+          $this->message("Sample file for migration not found in: [" . $file_sample . "]", 'error', true);
+
+        if(empty($class_name))
+          $this->message("Classname cannot be empty. ", 'error', true); 
+
+        $class_name = preg_replace("/[^a-zA-Z_\-]/", "", $class_name);
+        $class_name = str_replace("-", "_", $class_name);
+        $class_name = ucfirst($class_name);
+
+        $table_name = strtolower($class_name);
+
+        $content    = file_get_contents($file_sample);
+        $content    = str_replace("{TABLE_NAME}", $table_name, $content);
+        $content    = str_replace("{CLASS_NAME}", $class_name, $content);
+
+        $filename   =  $migration_folder . date("Y-m-d_His_") . $class_name . ".php";
+        file_put_contents($filename, $content);
+
+        $this->message("Migration File Created ! Filename:" . "[$filename]", "info", true);
 
       }else
       if($action == 'make:model')
@@ -135,6 +168,22 @@ class Thunder
       }
       
       
+    }
+
+    
+    /**
+     *  Migrates the 
+    */
+    public function migrate( array $args)
+    {
+        $action     = $args[1] ?? null;
+        $folder     = $args[2] ?? null;
+        $class_name   = $args[3] ?? null;
+
+        if($action == 'migrate' || $action = 'migrate:rollback')
+        {
+
+        }
     }
 
 
@@ -177,10 +226,10 @@ class Thunder
 
       if ($type === 'error') {
           $color = "\033[41;37m"; // Red color for Error messages
-      } elseif ($type === 'info') {
-          $color = "\033[44;37m"; // Blue color for Migration messages
       } elseif ($type === 'model') {
-          $color = "\033[43;37m"; // Yellow color for Model messages
+          $color = "\033[44;37m"; // Blue color for Model messages
+      } elseif ($type === 'info') {
+          $color = "\033[43;37m"; // Yellow color for Migration messages
       }
 
       $resetColor = "\033[0m"; // Reset color after the message
