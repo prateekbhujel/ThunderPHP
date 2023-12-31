@@ -5,9 +5,9 @@ namespace Migration;
 defined('FCPATH') or die('Direct script access denied');
 
 /**
- * Migration Class
+ * User Class
  *
- * This migration class represents the schema changes for the user table.
+ * This User class represents the schema changes for the users table.
  */
 class User extends Migration
 {
@@ -38,7 +38,7 @@ class User extends Migration
          * -----------------------------------
         */
         // Create the table
-        $this->createTable("user");
+        $this->createTable("users");
 
         /**
          * ------------ To Seed Data ------------
@@ -60,6 +60,6 @@ class User extends Migration
     public function down()
     {
         // Drop the table
-        $this->dropTable("user");
+        $this->dropTable("users");
     }
 }

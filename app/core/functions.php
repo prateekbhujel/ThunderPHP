@@ -181,7 +181,7 @@ function load_plugins($plugin_folders)
         foreach ($APP['plugins'] as $json) {
 
             if (file_exists($json->index_file)) {
-                require $json->index_file;
+                require_once $json->index_file;
                 $loaded = true;
             }
         }
