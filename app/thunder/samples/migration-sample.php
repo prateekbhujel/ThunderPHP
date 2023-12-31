@@ -5,9 +5,9 @@ namespace Migration;
 defined('FCPATH') or die('Direct script access denied');
 
 /**
- * Migration Class
+ * {CLASS_NAME} Class
  *
- * This migration class represents the schema changes for the {TABLE_NAME} table.
+ * This {CLASS_NAME} class represents the schema changes for the {TABLE_NAME}s table.
  */
 class {CLASS_NAME} extends Migration
 {
@@ -38,7 +38,7 @@ class {CLASS_NAME} extends Migration
          * -----------------------------------
         */
         // Create the table
-        $this->createTable("{TABLE_NAME}");
+        $this->createTable("{TABLE_NAME}s");
 
         /**
          * ------------ To Seed Data ------------
@@ -60,6 +60,6 @@ class {CLASS_NAME} extends Migration
     public function down()
     {
         // Drop the table
-        $this->dropTable("{TABLE_NAME}");
+        $this->dropTable("{TABLE_NAME}s");
     }
 }

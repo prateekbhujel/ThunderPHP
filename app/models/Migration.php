@@ -27,54 +27,52 @@ class Migration extends Database
      *
      * @param string $table The name of the table to be created.
      */
+ 
     public function createTable(string $table)
     {
-    	if(!empty($this->columns))
-    	{
-	        $query = "CREATE TABLE IF NOT EXISTS $table (";
+        if(!empty($this->columns))
+        {
 
-	        $query.= implode(",", $this->columns).',';
-	        $query.= "PRIMARY KEY (". implode("), PRIMARY KEY (", $this->primaryKeys) . ")";
+            $query = "CREATE TABLE IF NOT EXISTS $table (";
 
-	        foreach ($this->primaryKeys as $key) {
-	        	$query.= "PRIMARY KEY ($key),";
-	        }
+            $query .= implode(",", $this->columns) . ',';
 
-	        foreach ($this->Keys as $key) {
-	        	$query.= "KEY ($key),";
-	        }
+            foreach ($this->primaryKeys as $key) {
+                $query .= "primary key ($key),";
+            }
 
-	        foreach ($this->uniqueKeys as $key) {
-	        	$query.= "UNIQUE KEY $key ($key),";
-	        }
+            foreach ($this->keys as $key) {
+                $query .= "key ($key),";
+            }
 
-	        foreach ($this->fullTextKeys as $key) {
-	        	$query.= "FULLTEXT KEY $key ($key),";
-	        }
+            foreach ($this->uniqueKeys as $key) {
+                $query .= "unique key ($key),";
+            }
 
-	        $qurey .= trim($query, ",");
+            foreach ($this->fullTextKeys as $key) {
+                $query .= "fulltext key ($key),";
+            }
 
-	        $query .= ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4";
+            $query = trim($query,",");
 
-	        $this->query($query);
+            $query .= ")ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4";
 
-	        $this->columns        = [];
-	        $this->keys           = [];
-	        $this->data           = [];
-	        $this->primaryKeys    = [];
-	        $this->foreignKeys    = [];
-	        $this->uniqueKeys     = [];
-	        $this->fullTextKeys   = [];
+            $this->query($query);
 
-	        echo "\n\r Success: Table $table created successfully.";
+            $this->columns      = [];
+            $this->keys         = [];
+            $this->data         = [];
+            $this->primaryKeys  = [];
+            $this->foreignKeys  = [];
+            $this->uniqueKeys   = [];
+            $this->fullTextKeys = [];
 
-    	}else
-    	{
-			echo "\n\r Error: Column data not found ! Couldn't create table $table .";
-    	}
+            echo "\n\rTable $table created successfully!";
+        }else{
+
+            echo "\n\rColumn data not found! Could not create table: $table";
+        }
     }
-
-    
 
     /**
      * Insert data into a table.
