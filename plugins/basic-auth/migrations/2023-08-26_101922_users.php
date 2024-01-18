@@ -5,9 +5,9 @@ namespace Migration;
 defined('FCPATH') or die("Direct script access denied");
 
 /**
- * {CLASS_NAME} class
+ * Users class
  */
-class {CLASS_NAME} extends Migration
+class Users extends Migration
 {
 
 	public function up()
@@ -31,7 +31,7 @@ class {CLASS_NAME} extends Migration
 		 * $this->addUniqueKey('deleted');
 		 */
 
-		$this->createTable('{TABLE_NAME}');
+		$this->createTable('users');
 
 		/**
 		 * to seed data:
@@ -40,13 +40,13 @@ class {CLASS_NAME} extends Migration
 		 * 	'email'=>'email@email.com'
 		 * 	'gender'=>'male'
 		 * ]);
-		 * $this->insert('{TABLE_NAME}')
+		 * $this->insert('users')
 		 */
 
 	}
 
 	public function down()
 	{
-		$this->dropTable('{TABLE_NAME}');
+		$this->dropTable('users');
 	}
 }

@@ -6,10 +6,10 @@ ob_start();
 
 ini_set('display_errors', 1);
 
-if (PHP_SAPI !== 'cli')
-	die("This tool can only be run on command line.");
+if(strpos(PHP_SAPI, 'cgi') === 0)
+	die("This tool can only be run in the command line");
 
-define ('FCPATH', __DIR__.DIRECTORY_SEPARATOR);
+define('FCPATH', __DIR__.DIRECTORY_SEPARATOR);
 chdir(FCPATH);
 
 require FCPATH . "app/thunder/init.php";
@@ -25,12 +25,11 @@ if(empty($action))
 	call_user_func_array([$thunder,'help'], [$VERSION]);
 }else
 {
-	if(is_callable([$thunder, $action]))
+	if(is_callable([$thunder,$action]))
 	{
-		call_user_func_array([$thunder, $action], [$argv]);
-	}
-	else
+		call_user_func_array([$thunder,$action], [$argv]);
+	}else
 	{
-		echo "\n\rUnkown Commnand: $action";
+		echo "\n\rUnknown Command: " . $action;
 	}
 }

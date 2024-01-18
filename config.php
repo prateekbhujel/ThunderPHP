@@ -2,49 +2,47 @@
 
 define('DEBUG', true);
 
-define('APP_NAME', 'ThunderPHP App');
-define('APP_DESCRIPTION', 'This is best website !');
+define('APP_NAME', 'PluginPHP App');
+define('APP_DESCRIPTION', 'The best website');
 
-if( (empty($_SERVER['SERVER_NAME']) && PHP_SAPI !== 'cli') || (!empty($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost'))
+if((empty($_SERVER['SERVER_NAME']) && strpos(PHP_SAPI, 'cgi') !== 0) || (!empty($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost'))
 {
-	/** Database Name **/
-	define('DB_NAME', 'thunderphp_db');
-	
-	/** Database Username **/
-	define('DB_USER', 'root');
+	/** The name of your database */
+    define( 'DB_NAME', 'pluginphp_db' );
 
-	/** Database Password **/
-	define('DB_PASSWORD', '');
+    /** Database username */
+    define( 'DB_USER', 'root' );
 
-	/** Database Hostname **/
-	define('DB_HOST', 'localhost');
+    /** Database password */
+    define( 'DB_PASSWORD', '' );
 
-	/** Database Driver **/
-	define('DB_DRIVER', 'mysql');
+    /** Database hostname */
+    define( 'DB_HOST', 'localhost' );
 
-	/* Setting up the ROOT value */
-	define('ROOT', 'http://localhost/thunderphp');
+    /** Database driver */
+    define( 'DB_DRIVER', 'mysql' );
 
-} else 
+    define('ROOT', 'http://localhost/pluginphp');
+
+}else
 {
-	/** Database Name **/
-	define('DB_NAME', 'thunderphp_db');
+	/** The name of your database */
+    define( 'DB_NAME', 'pluginphp_db' );
+
+    /** Database username */
+    define( 'DB_USER', 'root' );
+
+    /** Database password */
+    define( 'DB_PASSWORD', '' );
+
+    /** Database hostname */
+    define( 'DB_HOST', 'localhost' );
+
+    /** Database driver */
+    define( 'DB_DRIVER', 'mysql' );
 	
-	/** Database Username **/
-	define('DB_USER', 'root');
-
-	/** Database Password **/
-	define('DB_PASSWORD', '');
-
-	/** Database Hostname **/
-	define('DB_HOST', 'localhost');
-
-	/** Database Driver **/
-	define('DB_DRIVER', 'mysql');
-	
-	/* Setting up the ROOT value */
-	define('ROOT', 'https://www.yourwebsite.com');
-
+	define('ROOT', 'http://yourwebsite.com');
 }
+
 
 
