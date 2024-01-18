@@ -1,3 +1,3 @@
 <?php
 
-/*Put the controller Code for the plugin here*/
+/**put the controller code for your plugin here**/

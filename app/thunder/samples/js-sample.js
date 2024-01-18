@@ -1,1 +1,1 @@
-/*JS sample goes here*/ 
+/**put the javascript for your plugin here**/

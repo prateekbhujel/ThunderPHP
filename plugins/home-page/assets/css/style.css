@@ -1,9 +1,9 @@
-/*This is css sample file */
+/**put the css for your plugin here**/
 
-* {
+*{
 	box-sizing: border-box;
 }
 
-body {
+body{
 	font-family: tahoma;
 }

@@ -1,16 +1,17 @@
 {
-    "name": "Plugin Name",
-    "id": "plugin-id",
-    "author": "Your Name",
-    "author-webiste": "Your Website Link",
-    "thumbnail": "thumbnail.jpg",
-    "active": true,
-    "index": 1,
-    "routes": {
-        "on": ["all"],
-        "off": []
-    },
-    "dependencies" : {
+	"name":"New Plugin",
+	"id":"new-plugin",
+	"author":"",
+	"author website":"",
+	"thumbnail":"thumbnail.jpg",
+	"active":true,
+	"index":1,
+	"routes": {
+		"on":["all"],
+		"off":[]
+	},
+	"dependencies": {
 
-    }
+	}
+
 }
