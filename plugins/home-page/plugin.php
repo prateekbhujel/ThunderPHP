@@ -37,7 +37,7 @@ add_action('view',function(){
 
 	$vars = get_value();
 
-	// require plugin_path('views/view.php');
+	require plugin_path('views/view.php');
 });
 
 
