@@ -28,10 +28,7 @@ add_action('controller',function(){
 
 	$vars = get_value();
 
-	$req = new \Core\Request;
-
-	if($req->posted())
-		require plugin_path('controllers/controller.php');
+	require plugin_path('controllers/controller.php');
 });
 
 
@@ -39,9 +36,8 @@ add_action('controller',function(){
 add_action('view',function(){
 
 	$vars = get_value();
-	$ses = new \Core\Session;
 
-	// require plugin_path('views/view.php');
+	require plugin_path('views/view.php');
 });
 
 

@@ -1,13 +1,13 @@
 {
-	"name":"Home Page",
-	"id":"home-page",
+	"name":"Page Not Found",
+	"id":"404",
 	"author":"Pratik Bhujel",
-	"author website":"www.pratikbhujel.com.np",
+	"author website":"www. pratikbhujel.com.np",
 	"thumbnail":"thumbnail.jpg",
-	"active":true,
+	"active":false,
 	"index":1,
 	"routes": {
-		"on":["home"],
+		"on":["404"],
 		"off":[]
 	},
 	"dependencies": {
