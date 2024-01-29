@@ -21,7 +21,7 @@ class App
 		do_action('view');
 		$after_content = ob_get_contents();
 
-		if(str_replace($before_content, "", $after_content) == "")
+		if(strlen($after_content) == strlen($before_content))
 		{
 			if(page() != '404'){
 				redirect('404');

@@ -40,8 +40,8 @@ add_action('view',function(){
 
 	$vars = get_value();
 	$ses = new \Core\Session;
-	var_dump($ses->is_admin());
-	require plugin_path('views/view.php');
+
+	// require plugin_path('views/view.php');
 });
 
 
