@@ -5,14 +5,22 @@
 		<h1>Page Not Found</h1>
 		<div class="fst-italic">Sorry, the page you are looking for could not be found.</div>
 
-		<form class="input-group my-3 mx-auto" style="max-width: 500px;">
+		<form class="input-group my-3 mx-auto" style="max-width: 500px;" autocomplete="off">
 			<input type="text" class="form-control" placeholder="Search" value="<?= old_value('find', '', 'get'); ?>" name="find" autofocus="true">
 			<button class="input-group-text bg-primary text-white" id=basic-addon1>
 				search
 			</button>
 		</form>
-		<img src="<?= plugin_path('assets/images/404.jpg') ?>" style="width: 100%; max-width: 500px;">
+
+		<?php if(empty($_GET['find'])): ?>
+				<img src="<?= plugin_http_path('assets/images/404.jpg') ?>" style="width: 100%; max-width: 500px;">
+		<?php else: ?>
+			<div>
+				<?php do_action(plugin_id() . '_display_search_results'); ?>
+			</div>
+		<?php endif; ?>
 	</center>
 </div>
+
 
 <script src="<?=plugin_http_path('assets/js/plugin.js')?>"></script>
