@@ -31,6 +31,16 @@ function set_value(string|array $key, mixed $value = ''):bool
 	return false;
 }
 
+function plugin_id(): string
+{
+	$called_from = debug_backtrace();
+	$ikey = array_search(__FUNCTION__, array_column($called_from, 'function'));
+	$path = get_plugin_dir(debug_backtrace()[$ikey]['file']) . 'config.json';
+
+	$json = json_decode(file_get_contents($path));
+	return $json->id ?? '';
+}
+
 function get_value(string $key = ''):mixed
 {
 	global $USER_DATA;
