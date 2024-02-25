@@ -348,25 +348,25 @@ function user_can(?string $permission):bool
 
 function old_value(string $key, string $default = '',string $type = 'post'):string
 {
-	$array = '_POST';
+	$array = $_POST;
 	if($type == 'get')
-		$array = '_GET';
-
-	if(!empty($$array[$key]))
-		return $$array[$key];
+		$array = $_GET;
+	
+	if(!empty($array[$key]))
+		return $array[$key];
 
 	return $default;
 }
 
 function old_select(string $key, string $value, string $default = '',string $type = 'post'):string
 {
-	$array = '_POST';
+	$array = $_POST;
 	if($type == 'get')
-		$array = '_GET';
+		$array = $_GET;
 
-	if(!empty($_POST[$key]))
+	if(!empty($array[$key]))
 	{
-		if($_POST[$key] == $value)
+		if($array[$key] == $value)
 			return ' selected ';
 	}else
 	{
@@ -379,13 +379,13 @@ function old_select(string $key, string $value, string $default = '',string $typ
 
 function old_checked(string $key, string $value, string $default = '',string $type = 'post'):string
 {
-	$array = '_POST';
+	$array = $_POST;
 	if($type == 'get')
-		$array = '_GET';
+		$array = $_GET;
 
-	if(!empty($_POST[$key]))
+	if(!empty($array[$key]))
 	{
-		if($_POST[$key] == $value)
+		if($array[$key] == $value)
 			return ' checked ';
 	}else
 	{

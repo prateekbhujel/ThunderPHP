@@ -2,9 +2,16 @@
 
 <div class="col-md-10 mx-auto p-4">
 	<center>
-		<h1>Welcome to ThunderPHP</h1>
-		<div class="fst-italic">A plugin based PHP Framework</div>
-		<img src="<?= plugin_path('assets/images/404.jpg') ?>" style="width: 100%; max-width: 400px;">
+		<h1>Page Not Found</h1>
+		<div class="fst-italic">Sorry, the page you are looking for could not be found.</div>
+
+		<form class="input-group my-3 mx-auto" style="max-width: 500px;">
+			<input type="text" class="form-control" placeholder="Search" value="<?= old_value('find', '', 'get'); ?>" name="find" autofocus="true">
+			<button class="input-group-text bg-primary text-white" id=basic-addon1>
+				search
+			</button>
+		</form>
+		<img src="<?= plugin_path('assets/images/404.jpg') ?>" style="width: 100%; max-width: 500px;">
 	</center>
 </div>
 
