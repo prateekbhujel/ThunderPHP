@@ -8,7 +8,7 @@ define('APP_DESCRIPTION', 'An Plugin Based PHP Framework, Everything here is an 
 if((empty($_SERVER['SERVER_NAME']) && strpos(PHP_SAPI, 'cgi') !== 0) || (!empty($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost'))
 {
 	/** The name of your database */
-    define( 'DB_NAME', 'ecom_db');
+    define( 'DB_NAME', 'thunderphp_db');
 
     /** Database username */
     define( 'DB_USER', 'root');
