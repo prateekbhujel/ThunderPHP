@@ -1,6 +1,6 @@
 {
-	"name":"New Plugin",
-	"id":"new-plugin",
+	"name":"{PLUGIN_NAME}",
+	"id":"{PLUGIN_NAME}",
 	"author":"",
 	"author website":"",
 	"thumbnail":"thumbnail.jpg",

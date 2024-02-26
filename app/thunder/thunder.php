@@ -60,6 +60,9 @@ class Thunder
 			
 			if(file_exists($plugin_file_source)){
 				copy($plugin_file_source, $plugin_file);
+				$content = file_get_contents($plugin_file);
+			    $content = str_replace("{PLUGIN_NAME}", $original_folder, $content);
+			    file_put_contents($plugin_file, $content);
 			}else{
 				$this->message("plugin sample file not found in: ".$plugin_file_source);
 			}
@@ -80,6 +83,10 @@ class Thunder
 			
 			if(file_exists($view_file_source)){
 				copy($view_file_source, $view_file);
+				$content = file_get_contents($view_file);
+				$pluginNameForView = ucfirst($original_folder);
+			    $content = str_replace("{PLUGIN_NAME}", $pluginNameForView, $content);
+			    file_put_contents($view_file, $content);
 			}else{
 				$this->message("view sample file not found in: ".$view_file_source);
 			}
@@ -110,10 +117,13 @@ class Thunder
 			
 			if(file_exists($config_file_source)){
 				copy($config_file_source, $config_file);
+				$content = file_get_contents($config_file);
+			    $content = str_replace("{PLUGIN_NAME}", $original_folder, $content);
+			    file_put_contents($config_file, $content);
 			}else{
 				$this->message("config sample file not found in: ".$config_file_source);
 			}
- 
+
  			$this->message("Plugin creation complete! Plugin folder: ".$folder);	
 
 		}else
