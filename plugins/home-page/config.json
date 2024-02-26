@@ -1,12 +1,17 @@
 {
-    "name": "Home Page",
-    "id": "home-page",
-    "author": "Your Name",
-    "thumbnail": "thumbnail.jpg",
-    "active": true,
-    "index": 1,
-    "routes": {
-        "on": ["home"],
-        "off": []
-    }
+	"name":"Home Page",
+	"id":"home-page",
+	"author":"Pratik Bhujel",
+	"author website":"www.pratikbhujel.com.np",
+	"thumbnail":"thumbnail.jpg",
+	"active":true,
+	"index":1,
+	"routes": {
+		"on":["home"],
+		"off":[]
+	},
+	"dependencies": {
+
+	}
+
 }

@@ -1,28 +1,24 @@
 <?php
 
+/**
+ * Plugin name: Header and Footer
+ * Author: Pratik Bhujel
+ * Description: This plugin containes Heaader and footer page.
+ * 
+ **/
 
-add_action('controller', function() {
 
-	$arr = ['name'=>'Bella Bhujel', 'age'=>23];
+add_action('before_view',function(){
 
-	set_value($arr);
-
+	require plugin_path('views/header.php');
 });
 
-add_action('after_view', function() {
 
-	echo "<center><div style='color: brown; background-color: #dddd'>Website Copyright &#169 2023 </div></center>";
+add_action('after_view',function(){
+
+	require plugin_path('views/footer.php');
 });
 
-add_action('view', function() {
-	
-	dd(get_value());
 
-});
-
-add_action('before_view', function() {
-
-	echo "<center><div><a href=''>Home</a> | About Us | Contact Us</div></center>";
-});
 
 

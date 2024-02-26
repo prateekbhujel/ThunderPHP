@@ -1,0 +1,17 @@
+{
+	"name":"Page Not Found",
+	"id":"404",
+	"author":"Pratik Bhujel",
+	"author website":"www.pratikbhujel.com.np",
+	"thumbnail":"thumbnail.jpg",
+	"active":true,
+	"index":1,
+	"routes": {
+		"on":["404"],
+		"off":[]
+	},
+	"dependencies": {
+
+	}
+
+}

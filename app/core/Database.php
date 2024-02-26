@@ -1,111 +1,156 @@
 <?php
 
 namespace Core;
-
 use \PDO;
 use \PDOException;
 
-defined('ROOT') or die('Direct script access denied');
+defined('ROOT') or die("Direct script access denied");
 
 /**
- * Database Class
- * Manages database connections and queries.
+ * Database class
  */
 class Database
 {
-    private static $query_id = '';
+	private static $query_id 	= '';
+	public $affected_rows 		= 0;
+	public $insert_id 			= 0;
+	public $error 				= '';
+	public $has_error 			= false;
+	public $table_exists_db		= '';
 
-    /**
-     * Establish a database connection.
-     *
-     * @return \PDO The PDO database connection.
-     */
-    private function connect()
-    {
-        $VARS['DB_NAME']     = DB_NAME;
-        $VARS['DB_USER']     = DB_USER;
-        $VARS['DB_PASSWORD'] = DB_PASSWORD;
-        $VARS['DB_HOST']     = DB_HOST;
-        $VARS['DB_DRIVER']   = DB_DRIVER;
+	private function connect()
+	{
 
-        // Apply filters before connecting to the database.
-        $VARS = do_filter('before_db_connect', $VARS);
+		$VARS['DB_NAME'] 		= DB_NAME;
+		$VARS['DB_USER'] 		= DB_USER;
+		$VARS['DB_PASSWORD'] 	= DB_PASSWORD;
+		$VARS['DB_HOST'] 		= DB_HOST;
+		$VARS['DB_DRIVER'] 		= DB_DRIVER;
 
-        $string = "$VARS[DB_DRIVER]:hostname=$VARS[DB_HOST];dbname=$VARS[DB_NAME]";
+		$VARS = do_filter('before_db_connect',$VARS);
+		$this->table_exists_db = $VARS['DB_NAME'];
 
-        try 
-        {
-            $con = new \PDO($string, $VARS['DB_USER'], $VARS['DB_PASSWORD']);
-            $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$string = "$VARS[DB_DRIVER]:hostname=$VARS[DB_HOST];dbname=$VARS[DB_NAME]";
 
-        } catch (PDOException $e) {
+		try
+		{
+			$con = new PDO($string,$VARS['DB_USER'],$VARS['DB_PASSWORD']);
+			$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Handle database connection error gracefully.
-            dd("FAILED TO CONNECT TO DATABASE WITH ERROR: " . $e->getMessage());
-            die;
-        }
+		} catch (PDOException $e) {
+			
+			die("Failed to connect to database with error " . $e->getMessage());
+		}
 
-        return $con;
-    }
+		return $con;
 
-    // The get_row function retrieves a single result from a query.
-    public function get_row(string $query, array $data = [], string $data_type = 'object')
-    {
-        $result = $this->query($query, $data, $data_type);
+	}
 
-        if (is_array($result) && count($result) > 0)
-        {
-            return $result[0];
-        }
+	public function get_row(string $query, array $data = [], string $data_type = 'object')
+	{
 
-        return false;
-    }
+		$result = $this->query($query,$data,$data_type);
+		if(is_array($result) && count($result) > 0)
+		{
+			return $result[0];
+		}
 
-    /**
-     * Execute a database query.
-     *
-     * @param string $query     The SQL query.
-     * @param array  $data      The data to bind to the query.
-     * @param string $data_type The type of data to retrieve (e.g., 'object', 'array').
-     * @return mixed The result of the query.
-     */
-    public function query(string $query, array $data = [], string $data_type = 'object')
-    {
-        // Apply filters before executing the query.
-        $query = do_filter('before_query_query', $query);
-        $data  = do_filter('after_query_data', $data);
+		return false;
+	}
 
-        $con   = $this->connect();
-        $stm   = $con->prepare($query);
+	public function query(string $query, array $data = [], string $data_type = 'object')
+	{
 
-        $result = $stm->execute($data);
-        if ($result)
-        {
-            if ($data_type == 'object')
-            {
-                $rows = $stm->fetchAll(PDO::FETCH_OBJ);
-            }
-            else
-            {
-                $rows = $stm->fetchAll(PDO::FETCH_ASSOC);
-            }
+		$query = do_filter('before_query_query',$query);
+		$data = do_filter('before_query_data',$data);
 
-            $arr = [];
-            $arr['query']  = $query;
-            $arr['data']   = $data;
-            $arr['result'] = $rows ?? [];
-            $arr['query_id'] = self::$query_id;
-            self::$query_id = '';
+		$this->error 				= '';
+		$this->has_error 			= false;
 
-            // Apply filters after executing the query and processing the result.
-            $result = do_filter('after_query', $arr);
+		$con = $this->connect();
 
-            if (is_array($result) && count($result) > 0)
-            {
-                return $result;
-            }
-        }
+		try
+		{
+			$stm = $con->prepare($query);
 
-        return false;
-    }
+			$result = $stm->execute($data);
+			$this->affected_rows 	= $stm->rowCount();
+			$this->insert_id 		= $con->lastInsertId();
+
+			if($result)
+			{
+				if($data_type == 'object'){
+					$rows = $stm->fetchAll(PDO::FETCH_OBJ);
+				}else{
+					$rows = $stm->fetchAll(PDO::FETCH_ASSOC);
+				}
+
+			}
+
+		}catch(PDOException $e)
+		{
+			$this->error 				= $e->getMessage();
+			$this->has_error 			= true;
+		}
+
+
+		$arr = [];
+		$arr['query'] = $query;
+		$arr['data'] = $data;
+		$arr['result'] = $rows ?? [];
+		$arr['query_id'] = self::$query_id;
+		self::$query_id = '';
+
+		$result = do_filter('after_query',$arr);
+
+		if(is_array($result) && count($result) > 0)
+		{
+			return $result;
+		}
+
+		return false;
+	}
+
+	/**
+	* This Method will check either the table exists or not.	
+	*/
+	public function table_exists(string|array $myTables): bool
+	{
+		global $APP;
+
+		if(empty($APP['tables']))
+		{
+			$this->error 				= '';
+			$this->has_error 			= false;
+
+			$con = $this->connect();
+			$query = "SELECT TABLE_NAME AS tables FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$this->table_exists_db."'";
+
+			$result = $APP['tables'] = $this->query($query)['result'];
+
+		}else
+		{
+			$result = $APP['tables'];
+		}
+
+		if($result)
+		{
+			$all_tables = array_column($result,'tables');
+
+			if(is_string($myTables))
+				$myTables = [$myTables];
+			
+			$count = 0;
+
+			foreach($myTables as $key => $table) {
+				if(in_array($table, $all_tables))
+					$count++;
+			}
+
+			if($count == count($myTables))
+				return true;
+		}
+
+		return false;
+	}
 }

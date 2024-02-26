@@ -1,13 +1,17 @@
 <?php
 
+/**
+ * Plugin name: Home Page
+ * Description: Displays the home page of a website.
+ * 
+ * 
+ **/
 
-add_action('view', function() {
-
-	dd("<span style='color: cyan;'>This is from the home-page plugin view hook<span>");
+/** displays the view file **/
+add_action('view',function()
+{
+	require plugin_path('views/view.php');
 });
 
-add_action('controller', function() {
 
-
-});
 

@@ -1,12 +1,17 @@
 {
-    "name": "Header Footer",
-    "id": "header-footer",
-    "author": "Your Name",
-    "thumbnail": "thumbnail.jpg",
-    "active": true,
-    "index": 1,
-    "routes": {
-        "on": ["all"],
-        "off": []
-    }
+	"name":"Header Footer",
+	"id":"header-footer",
+	"author":"Pratik Bhujel",
+	"author website":"www.pratikbhujel.com.np",
+	"thumbnail":"thumbnail.jpg",
+	"active":true,
+	"index":1,
+	"routes": {
+		"on":["all"],
+		"off":[]
+	},
+	"dependencies": {
+
+	}
+
 }
