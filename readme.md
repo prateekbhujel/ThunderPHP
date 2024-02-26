@@ -16,3 +16,4 @@ This repository contains the ThunderPHP framework with a complete set of plugins
 
 All functionality is encapsulated within plugins, ensuring modularity, easy customization, and minimal dependencies.
 
+[**Note**] - Framework Skeleton Is palced on master branch. Incase you want clean Setup.
