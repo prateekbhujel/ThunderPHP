@@ -463,3 +463,39 @@ function get_image(string $path = '', string $type = 'post')
 	return ROOT . '/assets/images/no_image.jpg';
 }
 
+function esc(?string $str): ?string
+{
+	return htmlspecialchars($str);
+}
+
+function get_date(string $date): string
+{
+	return date("jS M, Y", strtotime($date));
+}
+
+function message(string $msg = '', bool $erase = false):?string
+{
+	$ses = new \Core\Session;
+
+	if(!empty($msg))
+	{
+		$ses->set('message',$msg);
+	}else
+	if(!empty($ses->get('message')))
+	{
+		$msg = $ses->get('message');
+
+		if($erase)
+			$ses->pop('message');
+
+		return $msg;
+	}
+
+	return '';
+}
+
+function ddd($data)
+{
+	dd($data);
+	die;
+}

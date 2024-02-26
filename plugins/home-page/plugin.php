@@ -7,8 +7,6 @@
  * 
  **/
 
-
-
 /** displays the view file **/
 add_action('view',function()
 {
