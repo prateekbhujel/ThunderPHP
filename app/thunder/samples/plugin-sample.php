@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin name: 
+ * Plugin name: {PLUGIN_NAME}
  * Description: 
  * 
  * 
@@ -9,7 +9,7 @@
 
 set_value([
 
-	'plugin_route'	=>'my-plugin',
+	'plugin_route'	=>'{PLUGIN_NAME}',
 	'table'			=>'my_table',
 
 ]);
