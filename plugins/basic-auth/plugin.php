@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin name: 
+ * Plugin name: basic-auth
  * Description: 
  * 
  * 
@@ -9,7 +9,7 @@
 
 set_value([
 
-	'plugin_route'	=>'my-plugin',
+	'plugin_route'	=>'basic-auth',
 	'table'			=>'my_table',
 
 ]);
