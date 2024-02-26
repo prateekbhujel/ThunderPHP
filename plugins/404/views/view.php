@@ -12,13 +12,18 @@
 			</button>
 		</form>
 
-		<?php if(empty($_GET['find'])): ?>
-				<img src="<?= plugin_http_path('assets/images/404.jpg') ?>" style="width: 100%; max-width: 500px;">
-		<?php else: ?>
-			<div>
-				<?php do_action(plugin_id() . '_display_search_results'); ?>
-			</div>
-		<?php endif; ?>
+		<?php if(empty($_GET['find'])):?>
+			<img src="<?=plugin_http_path('assets/images/404.jpg')?>" style="width: 100%;max-width: 500px;">
+		<?php else:?>
+
+			<?php if(!empty($results)):?>
+				<div>
+					<?php do_action(plugin_id() .'_display_search_results',$results)?>
+				</div>
+			<?php else:?>
+				<div>No results found!</div>
+			<?php endif?>
+		<?php endif?>
 	</center>
 </div>
 

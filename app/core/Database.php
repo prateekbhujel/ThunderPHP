@@ -16,6 +16,7 @@ class Database
 	public $insert_id 			= 0;
 	public $error 				= '';
 	public $has_error 			= false;
+	public $table_exists_db		= '';
 
 	private function connect()
 	{
@@ -27,6 +28,7 @@ class Database
 		$VARS['DB_DRIVER'] 		= DB_DRIVER;
 
 		$VARS = do_filter('before_db_connect',$VARS);
+		$this->table_exists_db = $VARS['DB_NAME'];
 
 		$string = "$VARS[DB_DRIVER]:hostname=$VARS[DB_HOST];dbname=$VARS[DB_NAME]";
 
@@ -104,6 +106,49 @@ class Database
 		if(is_array($result) && count($result) > 0)
 		{
 			return $result;
+		}
+
+		return false;
+	}
+
+	/**
+	* This Method will check either the table exists or not.	
+	*/
+	public function table_exists(string|array $myTables): bool
+	{
+		global $APP;
+
+		if(empty($APP['tables']))
+		{
+			$this->error 				= '';
+			$this->has_error 			= false;
+
+			$con = $this->connect();
+			$query = "SELECT TABLE_NAME AS tables FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$this->table_exists_db."'";
+
+			$result = $APP['tables'] = $this->query($query)['result'];
+
+		}else
+		{
+			$result = $APP['tables'];
+		}
+
+		if($result)
+		{
+			$all_tables = array_column($result,'tables');
+
+			if(is_string($myTables))
+				$myTables = [$myTables];
+			
+			$count = 0;
+
+			foreach($myTables as $key => $table) {
+				if(in_array($table, $all_tables))
+					$count++;
+			}
+
+			if($count == count($myTables))
+				return true;
 		}
 
 		return false;
