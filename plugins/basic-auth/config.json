@@ -1,13 +1,13 @@
 {
-	"name":"basic-auth",
+	"name":"Basic Authentication",
 	"id":"basic-auth",
-	"author":"",
-	"author website":"",
+	"author":"Pratik Bhujel",
+	"author website":"pratikbhujel.com.np",
 	"thumbnail":"thumbnail.jpg",
 	"active":true,
 	"index":1,
 	"routes": {
-		"on":["all"],
+		"on":["login", "signup"],
 		"off":[]
 	},
 	"dependencies": {
