@@ -13,9 +13,7 @@ set_value([
 	'signup_page'	=>'signup',
 	'forgot_page'	=>'forgot',
 	'tables'		=>	[
-							'',
-							'',
-
+						
 						],
 
 ]);
@@ -25,8 +23,32 @@ set_value([
 add_action('controller',function(){
 
 	$vars = get_value();
+	$req  = new \Core\Request;
 
-	require plugin_path('controllers/controller.php');
+	if($req->posted())
+		require plugin_path('controllers/controller.php');
+});
+
+/** adding Menu to the links **/
+add_filter('header-footer_before_menu_links', function($links){
+
+	$link 				= (object)[];
+	$link->id 			= 1;
+	$link->title 		= 'Login';
+	$link->slug 		= 'login';
+	$link->icon 		= '';
+	$link->permission 	= 'not_logged_in';
+	$links[] 			= $link;
+
+	$link 				= (object)[];
+	$link->id 			= 2;
+	$link->title 		= 'Signup';
+	$link->slug 		= 'signup';
+	$link->icon 		= '';
+	$link->permission 	= 'not_logged_in';
+	$links[] 			= $link;
+	
+	return $links;
 });
 
 

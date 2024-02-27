@@ -7,28 +7,32 @@
 		<h3 class="text-center mt-2">Signup</h3>
 		<div class="text-muted text-center mb-3"><i>Please Signup to continue.</i></div>
 
+		<div class="alert alert-danger text-center text-danger">
+			This is an error message
+		</div>
+
 		<div class="form-floating my-2">
-		  <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
+		  <input name="first_name" type="text" value="<?=old_value('first_name')?>" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
 		  <label for="floatingInput">First Name</label>
 		</div>
 
 		<div class="form-floating my-2">
-		  <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
+		  <input name="last_name" type="text" value="<?=old_value('last_name')?>" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
 		  <label for="floatingInput">Last Name</label>
 		</div>
 
 		<div class="form-floating my-2">
-		  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
+		  <input name="email" type="email" value="<?=old_value('email')?>" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
 		  <label for="floatingInput">Email address</label>
 		</div>
 		
 		<div class="form-floating my-2">
-		  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
+		  <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
 		  <label for="floatingPassword">Password</label>
 		</div>
 
 		<div class="form-floating my-2">
-		  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
+		  <input name="retype_password" type="retype_password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
 		  <label for="floatingPassword">Retype Password</label>
 		</div>
 

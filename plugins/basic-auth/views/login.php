@@ -10,13 +10,18 @@
 
 		<h3 class="text-center mt-4">Login</h3>
 		<div class="text-muted text-center mb-4"><i>Please Login to continue</i></div>
+
+		<div class="alert alert-danger text-center text-danger fst-talic">
+			This is an error
+		</div>
+
 		<div class="form-floating my-4">
-		  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
+		  <input type="email" name="email" value="<?=old_value('email')?>" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
 		  <label for="floatingInput">Email address</label>
 		</div>
 		
 		<div class="form-floating my-4">
-		  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
+		  <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
 		  <label for="floatingPassword">Password</label>
 		</div>
 

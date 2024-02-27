@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<div class="col-md-10 mx-auto p-4 bg-light shadow">
+	<div class="col-md-10 mx-auto p-4">
 		
 		<?php if(!empty($links)):?>
 			<?php foreach($links as $link):?>
