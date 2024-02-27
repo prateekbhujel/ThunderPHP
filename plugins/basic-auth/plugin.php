@@ -1,26 +1,24 @@
 <?php
 
 /**
- * Plugin name: basic-auth
- * Description: 
+ * Plugin name: Basic Authentication.
  * 
+ * Description: Lets user login and signup.
  * 
  **/
 
 set_value([
 
-	'plugin_route'	=>'basic-auth',
-	'table'			=>'my_table',
+	'login_page'	=>'login',
+	'signup_page'	=>'signup',
+	'forgot_page'	=>'forgot',
+	'tables'		=>	[
+							'',
+							'',
+
+						],
 
 ]);
-
-/** set user permissions for this plugin **/
-add_filter('permissions',function($permissions){
-
-	$permissions[] = 'my_permission';
-
-	return $permissions;
-});
 
 
 /** run this after a form submit **/
@@ -37,7 +35,15 @@ add_action('view',function(){
 
 	$vars = get_value();
 
-	require plugin_path('views/view.php');
+	if(page() == $vars['login_page'])
+	{
+		require plugin_path('views/login.php');
+	}else
+	if(page() == $vars['signup_page'])
+	{
+		require plugin_path('views/signup.php');
+	}
+
 });
 
 
