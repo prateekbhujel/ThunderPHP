@@ -9,5 +9,11 @@
 <body>
 
 	<div class="col-md-10 mx-auto p-4 bg-light shadow">
-		<a href="<?=ROOT?>"> Home </a>
+		
+		<?php if(!empty($links)):?>
+			<?php foreach($links as $link):?>
+				<a href="<?=ROOT?>/<?=$link->slug?>"><?=$link->title?></a>
+			<?php endforeach; ?>
+		<?php endif;?>
+		
 	</div>
