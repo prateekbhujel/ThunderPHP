@@ -39,7 +39,7 @@ class Model extends Database
 		}
 
 		$query = trim($query,' && ');
-		$query .= " order by $this->order_column $this->order limit $limit offset $offset";
+		$query .= " order by $this->order_column $this->order limit $this->limit offset $this->offset";
 
 		$data = array_merge($where_array,$where_not_array);
 
@@ -47,7 +47,7 @@ class Model extends Database
 		
 	}
 
-	public function first(array $where_array = [], array $where_not_array = [], string $data_type = 'object'):array|bool
+	public function first(array $where_array = [], array $where_not_array = [], string $data_type = 'object'):object|bool
 	{
 
 		$rows = $this->where($where_array, $where_not_array,$data_type);
