@@ -1,6 +1,8 @@
 <?php
 
-namespace Model;
+namespace BasicAuth;
+
+use \Model\Model;
 
 defined('ROOT') or die("Direct script access denied");
 
@@ -11,11 +13,12 @@ class User extends Model
 {
 
 	protected $table = 'users';
-	protected $primary_key = 'id';
+	public $primary_key = 'id';
 
 	protected $allowedColumns = [
 		'first_name',
 		'last_name',
+		'gender',
 		'image',
 		'email',
 		'password',
@@ -41,7 +44,7 @@ class User extends Model
  		{
  			$this->errors['first_name'] = 'First Name is required';
  		}else
- 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['first_name']))
+ 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['first_name']))) 
  		{
  			$this->errors['first_name'] = 'Only letters with no spaces allowed.';
  		}
@@ -50,7 +53,7 @@ class User extends Model
  		{
  			$this->errors['last_name'] = 'Last Name is required';
  		}else
- 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['first_name']))
+ 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['last_name'])))
  		{
  			$this->errors['last_name'] = 'Only letters with no spaces allowed.';
  		}
@@ -68,6 +71,20 @@ class User extends Model
  			$this->errors['email'] = 'Email is not valid';
  		}
  		
+ 		if(empty($data['gender']))
+ 		{
+ 			$this->errors['gender'] = 'Gender is required';
+ 		}
+
+ 		if(empty($data['password']))
+ 		{
+ 			$this->errors['password'] = 'Password is required';
+ 		}else
+ 		if($data['password'] != $data['retype_password'])
+ 		{
+ 			$this->errors['password'] = 'Password do not match.';
+ 		}
+
  		return empty($this->errors);
 	}
 
@@ -77,7 +94,7 @@ class User extends Model
  		{
  			$this->errors['first_name'] = 'First Name is required';
  		}else
- 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['first_name']))
+ 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['first_name'])))
  		{
  			$this->errors['first_name'] = 'Only letters with no spaces allowed.';
  		}
@@ -86,7 +103,7 @@ class User extends Model
  		{
  			$this->errors['last_name'] = 'Last Name is required';
  		}else
- 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['first_name']))
+ 		if(!preg_match('/^[a-zA-Z]+$/', trim($data['first_name'])))
  		{
  			$this->errors['last_name'] = 'Only letters with no spaces allowed.';
  		}
@@ -110,6 +127,19 @@ class User extends Model
  		{
  			$this->errors['email'] = 'Email is not valid';
  		}
+
+ 		if(empty($data['gender']))
+ 		{
+ 			$this->errors['gender'] = 'Gender is required';
+ 		}
+
+ 		if(!empty($data['password']))
+ 		{
+	 		if($data['password'] != $data['retype_password'])
+	 		{
+	 			$this->errors['password'] = 'Password do not match.';
+	 		}	
+	 	}
 
 		return empty($this->errors);
 	}

@@ -17,6 +17,7 @@ class Users extends Migration
 		$this->addColumn('last_name varchar(30) null');
 		$this->addColumn('image varchar(1024) null');
 		$this->addColumn('email varchar(100) null');
+		$this->addColumn('gender varchar(10) null');
 		$this->addColumn('password varchar(255) null');
 
 		$this->addColumn('deleted tinyint(1) unsigned default 0');
@@ -40,14 +41,15 @@ class Users extends Migration
 		$this->createTable('users');
 
 			//Seeding the data:
- 			$this->addData([
-			 	'first_name'=>'Admin',
-			 	'last_name'	=>'Admin',
-			 	'email'		=>'email@email.com',
-			 	'password'	=>password_has('password', PASSWORD_DEFAULT),
-			 	'gender'	=>'male',
-			 ]);
-			 $this->insert('users')
+ 			// $this->addData([
+			//  	'first_name'	=> 'Admin',
+			//  	'last_name'		=> 'Admin',
+			//  	'email'			=> 'email@email.com',
+			//  	'password'		=> password_hash('password', PASSWORD_DEFAULT),
+			//  	'gender'		=> 'male',
+			//  	'date_created'	=> date('Y-m-d H:i:s'),
+			//  ]);
+			//  $this->insert('users');
 		 
 
 	}

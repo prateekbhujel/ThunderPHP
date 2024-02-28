@@ -27,6 +27,16 @@
 		  <?php endif;?>
 		</div>
 
+		<select name="gender" class="form-select p-3" style="border-radius: 38px;">
+			<option value="">--- Select Gender ---</option>	
+			<option <?=old_select('gender','male');?>value="male">Male</option>	
+			<option <?=old_select('gender','female');?> value="female">Female</option>
+		</select>
+
+		<?php if(!empty($errors['gender'])) :?>
+	  		<small class="text-danger text-center px-2"><?=$errors['gender']?></small>
+	  	<?php endif;?>	
+
 		<div class="form-floating my-2">
 		  <input name="email" type="email" value="<?=old_value('email')?>" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
 		  <label for="floatingInput">Email address</label>
@@ -46,7 +56,7 @@
 		</div>
 
 		<div class="form-floating my-2">
-		  <input name="retype_password" type="retype_password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
+		  <input name="retype_password" type="password" class="form-control" id="floatingPassword" placeholder="Password" style="border-radius: 35px;">
 		  <label for="floatingPassword">Retype Password</label>
 		</div>
 
