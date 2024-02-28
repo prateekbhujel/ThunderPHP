@@ -8,13 +8,15 @@
 		<div class="text-center">
 			<svg fill="#3d4785" style="border-radius: 50%;" width="80" height="80" viewBox="0 0 24 24"><path d="M19 7.001c0 3.865-3.134 7-7 7s-7-3.135-7-7c0-3.867 3.134-7.001 7-7.001s7 3.134 7 7.001zm-1.598 7.18c-1.506 1.137-3.374 1.82-5.402 1.82-2.03 0-3.899-.685-5.407-1.822-4.072 1.793-6.593 7.376-6.593 9.821h24c0-2.423-2.6-8.006-6.598-9.819z"/></svg>			
 		</div>
+		
+		<?php if(message()):?>
+			<div class="alert alert-success text-center my-2">
+				<?=esc(message('', true));?>		
+			</div>
+		<?php endif;?>
 
 		<h3 class="text-center mt-4">Login</h3>
 		<div class="text-muted text-center mb-4"><i>Please Login to continue</i></div>
-
-		<div class="alert alert-danger text-center text-danger fst-talic">
-			This is an error
-		</div>
 
 		<div class="form-floating my-4">
 		  <input type="email" name="email" value="<?=old_value('email')?>" class="form-control" id="floatingInput" placeholder="name@example.com" style="border-radius: 35px;">
