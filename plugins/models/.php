@@ -1,16 +1,16 @@
 <?php
 
-namespace {NAMESPACE};
+namespace {NAMSEPACE};
 
 defined('ROOT') or die("Direct script access denied");
 
 /**
- * {CLASS_NAME} class
+ *  class
  */
-class {CLASS_NAME} extends Model
+class  extends Model
 {
 
-	protected $table = '{TABLE_NAME}s';
+	protected $table = 's';
 	protected $primary_key = 'id';
 
 	protected $allowedColumns = [
