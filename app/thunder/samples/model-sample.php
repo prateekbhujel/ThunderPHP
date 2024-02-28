@@ -13,7 +13,7 @@ class {CLASS_NAME} extends Model
 {
 
 	protected $table = '{TABLE_NAME}s';
-	protected $primary_key = 'id';
+	public $primary_key = 'id';
 
 	protected $allowedColumns = [
 		'column1',
