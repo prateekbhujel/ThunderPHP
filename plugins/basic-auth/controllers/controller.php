@@ -1,3 +1,0 @@
-<?php
-
-dd($req->post());

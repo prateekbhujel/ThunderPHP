@@ -25,8 +25,14 @@ add_action('controller',function(){
 	$vars = get_value();
 	$req  = new \Core\Request;
 
-	if($req->posted())
-		require plugin_path('controllers/controller.php');
+	if($req->posted() && page() == $vars['login_page'])
+	{
+		require plugin_path('controllers/LoginController.php');
+	}else
+	if($req->posted() && page() == $vars['signup_page'])
+	{
+		require plugin_path('controllers/SignupController.php');
+	}
 });
 
 /** adding Menu to the links **/
@@ -63,6 +69,7 @@ add_action('view',function(){
 	}else
 	if(page() == $vars['signup_page'])
 	{
+		$errors = $vars['errors'] ?? [];
 		require plugin_path('views/signup.php');
 	}
 
