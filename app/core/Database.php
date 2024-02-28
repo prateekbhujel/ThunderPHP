@@ -105,7 +105,7 @@ class Database
 
 		if(is_array($result['result']) && count($result['result']) > 0)
 		{
-			return $result;
+			return $result['result'];
 		}
 
 		return false;
