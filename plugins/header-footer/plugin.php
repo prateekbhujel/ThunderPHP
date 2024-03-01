@@ -10,13 +10,15 @@
 
 add_action('before_view',function(){
 
-	$links 		 = [];
+	$links 				 = [];
 
-	$link 		 = (object)[];
-	$link->id 	 = 0;
-	$link->title = 'Home';
-	$link->slug  = 'home';
-	$links[] 	 = $link;
+	$link 		 		= (object)[];
+	$link->id 	 		= 0;
+	$link->title 		= 'Home';
+	$link->slug  		= 'home';
+	$link->icon  		= '';
+	$link->permission  	= '';
+	$links[] 	 		= $link;
 
 	$links = do_filter(plugin_id().'_before_menu_links', $links);
 
