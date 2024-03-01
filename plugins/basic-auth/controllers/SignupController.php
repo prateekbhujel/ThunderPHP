@@ -2,7 +2,7 @@
 
 	$user = new \BasicAuth\User;
 
-	if($user->validate_insert($req->post()))
+	if($csrf = csrf_verify($req->post()) && $user->validate_insert($req->post()))
 	{
 		$postData = $req->post();
 		$postData['date_created'] = date("Y-m-d H:i:s");
@@ -14,5 +14,8 @@
 		redirect($vars['login_page']);
 	}else
 	{
+		if(!$csrf)
+			$user->errors['email'] = 'Form Expired. Please refresh.';
+
 		set_value('errors', $user->errors);
 	}
