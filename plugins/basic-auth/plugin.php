@@ -9,13 +9,14 @@
 
 set_value([
 
-	'login_page'	=>'login',
-	'signup_page'	=>'signup',
-	'logout_page'	=>'logout',
-	'forgot_page'	=>'forgot',
-	'tables'		=>	[
-						
-						],
+	'login_page'			=>'login',
+	'signup_page'			=>'signup',
+	'logout_page'			=>'logout',
+	'forgot_page'			=>'forgot',
+	'admin_plugin_route'	=>'admin',
+	'tables'				=>	[
+												
+								],
 
 ]);
 
@@ -44,10 +45,11 @@ add_action('controller',function(){
 /** adding Menu to the links **/
 add_filter('header-footer_before_menu_links', function($links){
 
-	$ses = new \Core\Session();
+	$ses  = new \Core\Session();
+	$vars = get_value();
 
 	$link 				= (object)[];
-	$link->id 			= 1;
+	$link->id 			= 0;
 	$link->title 		= 'Login';
 	$link->slug 		= 'login';
 	$link->icon 		= '';
@@ -55,15 +57,23 @@ add_filter('header-footer_before_menu_links', function($links){
 	$links[] 			= $link;
 
 	$link 				= (object)[];
-	$link->id 			= 2;
+	$link->id 			= 0;
 	$link->title 		= 'Signup';
 	$link->slug 		= 'signup';
 	$link->icon 		= '';
 	$link->permission 	= 'not_logged_in';
 	$links[] 			= $link;
+
+	$link				= (object)[];
+	$link->id 			= 0;
+	$link->title 		= 'Admin';
+	$link->slug 		= $vars['admin_plugin_route'];
+	$link->icon 		= '';
+	$link->permission 	= 'logged_in';
+	$links[]			= $link;
 	
 	$link 				= (object)[];
-	$link->id 			= 3;
+	$link->id 			= 0;
 	$link->title 		= 'Hi, ' . $ses->user('first_name');
 	$link->slug 		= 'profile/' . $ses->user('id');
 	$link->icon 		= '';
@@ -71,7 +81,7 @@ add_filter('header-footer_before_menu_links', function($links){
 	$links[] 			= $link;
 
 	$link				= (object)[];
-	$link->id 			= 4;
+	$link->id 			= 0;
 	$link->title 		= 'Logout';
 	$link->slug 		= 'logout';
 	$link->icon 		= '';

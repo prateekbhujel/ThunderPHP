@@ -1,13 +1,13 @@
 {
-	"name":"basic-admin",
+	"name":"Basic Admin",
 	"id":"basic-admin",
-	"author":"",
-	"author website":"",
+	"author":"Pratik Bhujel",
+	"author website":"https://pratikbhujel.com.np",
 	"thumbnail":"thumbnail.jpg",
 	"active":true,
 	"index":1,
 	"routes": {
-		"on":["all"],
+		"on":["admin"],
 		"off":[]
 	},
 	"dependencies": {
