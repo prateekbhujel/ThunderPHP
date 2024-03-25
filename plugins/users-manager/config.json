@@ -1,0 +1,17 @@
+{
+	"name":"Users Manager",
+	"id":"users-manager",
+	"author":"Pratik Bhujel",
+	"author website":"https://pratikbhujel.com.np",
+	"thumbnail":"thumbnail.jpg",
+	"active":true,
+	"index":3,
+	"routes": {
+		"on":["admin"],
+		"off":[]
+	},
+	"dependencies": {
+
+	}
+
+}
