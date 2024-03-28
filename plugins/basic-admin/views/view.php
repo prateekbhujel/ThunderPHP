@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-<!-- 35mins and 28seconds -->
+
   <head><script src="<?=plugin_http_path('assets/js/color-modes.js')?>"></script>
 
     <meta charset="utf-8">
@@ -240,6 +240,5 @@
   </div>
 </div>
 <script src="<?=plugin_http_path('/assets/js/bootstrap.bundle.min.js')?>"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script><script src="<?php ('assets/js/dashboard.js')?>"></script></body>
+</body>
 </html>
