@@ -446,8 +446,10 @@ function csrf_verify(array $post, string $sesKey = 'csrf'):mixed
 }
 
 
-function get_image(string $path = '', string $type = 'post')
+function get_image(?string $path = '', string $type = 'post')
 {
+	$path = $path ?? '';
+
 	if(file_exists($path))
 		return ROOT . '/' . $path;
 	
@@ -468,8 +470,10 @@ function esc(?string $str): ?string
 	return htmlspecialchars($str);
 }
 
-function get_date(string $date): string
+function get_date(?string $date): ?string
 {
+	$date = $date ?? '';
+	
 	return date("jS M, Y", strtotime($date));
 }
 
