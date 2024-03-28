@@ -55,7 +55,7 @@ add_action('controller',function(){
 
 
 /** displays the view file **/
-add_action('view',function(){
+add_action('basic-admin_main_content',function(){
 
 	$ses = new \Core\Session;
 	$vars = get_value();
