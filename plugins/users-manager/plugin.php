@@ -60,8 +60,35 @@ add_action('basic-admin_main_content',function(){
 	$ses = new \Core\Session;
 	$vars = get_value();
 	
+	$admin_route = $vars['admin_route'];
+	$plugin_route = $vars['plugin_route'];
+	$user = new \UsersManager\User;
+	
+
 	if(URL(1) == $vars['plugin_route'])
-		require plugin_path('views/view.php');
+	{
+		if(URL(2) == 'add')
+		{
+			require plugin_path('views/add.php');
+		}else
+		if(URL(2) == 'edit')
+		{
+			require plugin_path('views/edit.php'); //17mins in of 3rd video of users-managers
+		}else
+		if(URL(2) == 'delete')
+		{
+			require plugin_path('views/delete.php');
+		}else
+		if(URL(2) == 'view')
+		{
+			require plugin_path('views/view.php');
+		}else
+		{
+			$user->limit = 30;
+			$rows = $user->getAll();
+			require plugin_path('views/list.php');
+		}
+	}
 });
 
 
