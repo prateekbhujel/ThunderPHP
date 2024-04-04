@@ -73,7 +73,7 @@ add_action('basic-admin_main_content',function(){
 		}else
 		if(URL(2) == 'edit')
 		{
-			require plugin_path('views/edit.php'); //17mins in of 3rd video of users-managers
+			require plugin_path('views/edit.php');
 		}else
 		if(URL(2) == 'delete')
 		{
