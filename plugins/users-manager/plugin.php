@@ -5,7 +5,7 @@
  * Description: A way for admin to manage users.
  * 
  * 
- **/
+**/
 
 set_value([
 
@@ -73,6 +73,8 @@ add_action('basic-admin_main_content',function(){
 		}else
 		if(URL(2) == 'edit')
 		{
+			$id = URL(3) ?? null;
+			$row = $user->first(['id'=>$id]);
 			require plugin_path('views/edit.php');
 		}else
 		if(URL(2) == 'delete')
