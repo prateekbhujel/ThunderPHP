@@ -1,7 +1,3 @@
-Here is an updated version of your README that reflects the changes you mentioned:
-
----
-
 # ThunderPHP - A Plugin-Based PHP Framework
 
 ThunderPHP is a PHP MVC (Model-View-Controller) framework designed to accelerate your web development projects by harnessing the power of plugins. Unlike starting from scratch with every project, ThunderPHP allows you to build upon a solid foundation, combining the flexibility of WordPress with the simplicity of lightweight frameworks like CodeIgniter.
@@ -22,7 +18,3 @@ This repository contains the ThunderPHP framework with a complete set of plugins
 All functionality is encapsulated within plugins, ensuring modularity, easy customization, and minimal dependencies.
 
 **[Note]**: The framework skeleton is placed in the `main` branch. In case you want a clean setup, please refer to this branch for the most up-to-date code.
-
----
-
-Let me know if you would like any further adjustments!
