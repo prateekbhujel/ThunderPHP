@@ -47,9 +47,39 @@ add_filter('basic-admin_before_admin_links',function($links){
 add_action('controller',function(){
 	$req = new \Core\Request;
 	$vars = get_value();
-	
+
+	$admin_route = $vars['admin_route'];
+	$plugin_route = $vars['plugin_route'];
+
 	if(URL(1) == $vars['plugin_route'] && $req->posted())
-		require plugin_path('controllers/controller.php');
+	{
+		$ses 	= new \Core\Session();
+		$user 	= new \UsersManager\User();
+
+		$id = URL(3) ?? null;
+		
+		if($id)
+			$row = $user->first(['id'=>$id]);
+
+		if(URL(2) == 'add')
+		{
+			require plugin_path('controllers/add-controller.php');
+
+		}else
+		if(URL(2) == 'edit')
+		{
+			
+			require plugin_path('controllers/edit-controller.php');
+
+		}else
+		if(URL(2) == 'delete')
+		{
+
+			require plugin_path('controllers/delete-controller.php');
+
+		}
+
+	}
 
 });
 
@@ -64,31 +94,45 @@ add_action('basic-admin_main_content',function(){
 	$plugin_route = $vars['plugin_route'];
 	$user = new \UsersManager\User;
 	
+	$errors = $vars['errors'] ?? [];
 
 	if(URL(1) == $vars['plugin_route'])
 	{
+
+		$id = URL(3) ?? null;
+		
+		if($id)
+			$row = $user->first(['id'=>$id]);
+
 		if(URL(2) == 'add')
 		{
 			require plugin_path('views/add.php');
+
 		}else
 		if(URL(2) == 'edit')
 		{
-			$id = URL(3) ?? null;
-			$row = $user->first(['id'=>$id]);
+			
 			require plugin_path('views/edit.php');
+
 		}else
 		if(URL(2) == 'delete')
 		{
+
 			require plugin_path('views/delete.php');
+
 		}else
 		if(URL(2) == 'view')
 		{
+
 			require plugin_path('views/view.php');
+
 		}else
 		{
+
 			$user->limit = 30;
 			$rows = $user->getAll();
 			require plugin_path('views/list.php');
+
 		}
 	}
 });

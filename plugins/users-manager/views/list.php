@@ -43,7 +43,7 @@
 						Roles
 					</td>
 					
-					<td><?=get_date($row->date_created)?>?></td>
+					<td><?=get_date($row->date_created)?></td>
 					
 					<td><?=get_date($row->date_updated)?></td>
 					

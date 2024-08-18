@@ -87,7 +87,7 @@ class Model extends Database
 		return false;
 	}
 
-	public function update(string|int $my_id, array $data)
+	public function update(string|int $_my_id, array $data)
 	{
 		if(!empty($this->allowedUpdateColumns) || !empty($this->allowedColumns))
 		{
@@ -102,7 +102,7 @@ class Model extends Database
 		
 		if(!empty($data))
 		{
-			$query = "update $this->table ";
+			$query = "update $this->table set ";
 			foreach ($data as $key => $value) {
 
 				$query .= $key . '= :'.$key.",";
@@ -112,6 +112,7 @@ class Model extends Database
 			$data['my_id'] = $_my_id;
 
 			$query .= " where $this->primary_key = :my_id";
+			
 			return $this->query($query,$data);
 		}
 
