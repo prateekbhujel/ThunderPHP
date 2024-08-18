@@ -227,8 +227,12 @@
         <h1 class="h2"><?=esc($section_title)?></h1>
       </div>
 
-      <?php if(message()):?>
-        <div class="alert alert-danger text-center"><?=message('', true)?></div>
+      <?php if(message_success()):?>
+        <div class="alert alert-success text-center"><?=message_success('', true)?></div>
+      <?php endif;?>
+
+      <?php if(message_fail()):?>
+        <div class="alert alert-danger text-center"><?=message_fail('', true)?></div>
       <?php endif;?>
       <!-- Content Start here  -->
 

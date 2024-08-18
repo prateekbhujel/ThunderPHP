@@ -10,9 +10,13 @@
 			<th>Created At</th>
 			<th>Updated At</th>
 			<th>
-				<button class="btn btn-bd-primary btn-sm">
-					<i class="fas fa-plus me-2"></i> Add new
-				</button>
+				
+				<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>/add">
+					<button class="btn btn-bd-primary btn-sm">
+						<i class="fas fa-plus me-2"></i> Add new
+					</button>
+				</a>
+
 			</th>
 		</tr>
 		<?php if(!empty($rows)):?>

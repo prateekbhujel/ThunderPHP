@@ -28,6 +28,7 @@ class User extends Model
 	protected $allowedUpdateColumns = [
 		'first_name',
 		'last_name',
+		'gender',
 		'image',
 		'email',
 		'password',

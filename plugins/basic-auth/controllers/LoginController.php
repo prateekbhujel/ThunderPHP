@@ -16,9 +16,9 @@
 			}
 		}
 		
-			message('Wrong email or password');
+			message_fail('Wrong email or password');
 
 	}else
 	{
-			message('Form Expired. Please refresh.');
+			message_fail('Form Expired. Please refresh.');
 	}

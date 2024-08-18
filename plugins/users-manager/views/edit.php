@@ -45,7 +45,7 @@
 
 			<div class="mb-3 col-md-6">
 				<label for="gender" class="form-label">Gender</label>
-				<select class="form-select" name="gender">
+				<select  value="" class="form-select" name="gender">
 				  <option selected>--Select Gender--</option>
 				  <option <?=old_select('gender','male',$row->gender)?> value="male">Male</option>
 				  <option <?=old_select('gender','female',$row->gender)?> value="female">Female</option>
@@ -75,7 +75,7 @@
 			
 			<div class="d-flex justify-content-between">
 				<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>">
-					<button class="btn btn-primary">
+					<button type="button" class="btn btn-primary">
 						<i class="fa-solid fa-chevron-left"></i> Back
 					</button>
 				</a>

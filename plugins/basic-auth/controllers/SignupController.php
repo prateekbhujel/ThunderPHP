@@ -10,7 +10,7 @@
 
 		$user->insert($postData);
 
-		message("Signup Complete! Please Login to continue.");
+		message_success("Signup Complete! Please Login to continue.");
 		redirect($vars['login_page']);
 	}else
 	{
