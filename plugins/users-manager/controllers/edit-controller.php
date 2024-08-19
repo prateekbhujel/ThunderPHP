@@ -20,23 +20,26 @@ if(!empty($row))
 
 	if($csrf && $files_ok && $user->validate_update($postdata))
 	{
-		if(isset($postdata['password']) && empty($postdata['password'])){
-			unset($postdata['password']);
-		}else
+		if(user_cam('edit_user'))
 		{
-			$postdata['password'] = password_hash($postdata['password'], PASSWORD_DEFAULT);
+			if(isset($postdata['password']) && empty($postdata['password'])){
+				unset($postdata['password']);
+			}else
+			{
+				$postdata['password'] = password_hash($postdata['password'], PASSWORD_DEFAULT);
+			}
+
+			$postdata['date_updated'] = date('Y-m-d H:i:s');
+			unset($postdata['id']);
+
+			$user->update($row->id, $postdata);
+
+			if(!empty($postdata['image']) && file_exists($row->image))
+				unlink($row->image);
+
+			message_success("Record edited successfully!");
+			redirect($admin_route . '/' . $plugin_route . '/view/' . $row->id);
 		}
-
-		$postdata['date_updated'] = date('Y-m-d H:i:s');
-		unset($postdata['id']);
-
-		$user->update($row->id, $postdata);
-
-		if(!empty($postdata['image']) && file_exists($row->image))
-			unlink($row->image);
-
-		message_success("Record edited successfully!");
-		redirect($admin_route . '/' . $plugin_route . '/view/' . $row->id);
 	}
 
 	if(!$csrf)

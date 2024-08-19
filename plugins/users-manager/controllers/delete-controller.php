@@ -8,13 +8,16 @@ if(!empty($row))
 
 	if($csrf)
 	{
-		$user->delete($row->id);
+		if(user_can('delete_user'))
+		{
+			$user->delete($row->id);
 
-		if(file_exists($row->image))
-			unlink($row->image);
+			if(file_exists($row->image))
+				unlink($row->image);
 
-		message_success("Record deleted successfully!");
-		redirect($admin_route . '/' . $plugin_route);
+			message_success("Record deleted successfully!");
+			redirect($admin_route . '/' . $plugin_route);
+		}
 	}
 
 	$user->errors['email'] = "Form Expired!";

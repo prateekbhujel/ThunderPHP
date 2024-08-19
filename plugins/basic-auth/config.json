@@ -1,5 +1,6 @@
 {
 	"name":"Basic Authentication",
+	"version": "1.0.0",
 	"id":"basic-auth",
 	"author":"Pratik Bhujel",
 	"author website":"pratikbhujel.com.np",

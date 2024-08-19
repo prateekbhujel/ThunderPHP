@@ -15,10 +15,25 @@ set_value([
 	'forgot_page'			=>'forgot',
 	'admin_plugin_route'	=>'admin',
 	'tables'				=>	[
-												
+									'users_table' => 'users',			
 								],
 
 ]);
+
+/** Check if all required tables exist **/
+$db = new \Core\Database();
+$tables = get_value()['tables'];
+
+if (!$db->table_exists($tables)) {
+    $missingCount = count($db->missing_tables);
+    $pluginId = plugin_id();
+
+    if ($missingCount === 1) {
+        ddd("Missing database table in {$pluginId} plugin: " . implode(", ", $db->missing_tables));
+    } else {
+        ddd("Missing database tables in {$pluginId} plugin: " . implode(", ", $db->missing_tables));
+    }
+}
 
 
 /** run this after a form submit **/

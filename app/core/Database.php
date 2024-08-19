@@ -17,6 +17,7 @@ class Database
 	public $error 				= '';
 	public $has_error 			= false;
 	public $table_exists_db		= '';
+	public $missing_tables		= [];
 
 	private function connect()
 	{
@@ -117,6 +118,7 @@ class Database
 	public function table_exists(string|array $myTables): bool
 	{
 		global $APP;
+		$this->missing_tables = [];
 
 		if(empty($APP['tables']))
 		{
@@ -126,7 +128,8 @@ class Database
 			$con = $this->connect();
 			$query = "SELECT TABLE_NAME AS tables FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$this->table_exists_db."'";
 
-			$result = $APP['tables'] = $this->query($query)['result'];
+			$res = $this->query($query);
+			$result = $APP['tables'] = $res;
 
 		}else
 		{
@@ -143,8 +146,11 @@ class Database
 			$count = 0;
 
 			foreach($myTables as $key => $table) {
-				if(in_array($table, $all_tables))
+				if(in_array($table, $all_tables)){
 					$count++;
+				}else{
+					$this->missing_tables[] = $table;
+				}
 			}
 
 			if($count == count($myTables))

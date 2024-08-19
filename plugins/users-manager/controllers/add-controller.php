@@ -16,14 +16,17 @@ $csrf = csrf_verify($postdata);
 
 if($csrf && $files_ok && $user->validate_insert($postdata))
 {
-	$postdata['password'] = password_hash($postdata['password'], PASSWORD_DEFAULT);
+	if(user_can('add_user'))
+	{
+		$postdata['password'] = password_hash($postdata['password'], PASSWORD_DEFAULT);
 
-	$postdata['date_created'] = date('Y-m-d H:i:s');
+		$postdata['date_created'] = date('Y-m-d H:i:s');
 
-	$user->insert($postdata);
+		$user->insert($postdata);
 
-	message_success("Record added successfully!");
-	redirect($admin_route . '/' . $plugin_route . '/view/' . $user->insert_id);
+		message_success("Record added successfully!");
+		redirect($admin_route . '/' . $plugin_route . '/view/' . $user->insert_id);
+	}
 }
 
 if(!$csrf)

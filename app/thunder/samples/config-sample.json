@@ -1,5 +1,6 @@
 {
 	"name":"{PLUGIN_NAME}",
+	"version": "1.0.0",
 	"id":"{PLUGIN_NAME}",
 	"author":"",
 	"author website":"",

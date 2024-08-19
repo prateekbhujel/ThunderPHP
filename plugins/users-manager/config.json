@@ -1,5 +1,6 @@
 {
 	"name":"Users Manager",
+	"version": "1.0.0",
 	"id":"users-manager",
 	"author":"Pratik Bhujel",
 	"author website":"https://pratikbhujel.com.np",
@@ -11,7 +12,7 @@
 		"off":[]
 	},
 	"dependencies": {
-
+		"basic-auth" : "1.0.0"
 	}
 
 }
