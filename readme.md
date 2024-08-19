@@ -3,6 +3,7 @@
 ThunderPHP is a PHP MVC (Model-View-Controller) framework designed to accelerate your web development projects by harnessing the power of plugins. Unlike starting from scratch with every project, ThunderPHP allows you to build upon a solid foundation, combining the flexibility of WordPress with the simplicity of lightweight frameworks like CodeIgniter.
 
 ## Features
+
 - **Plugin-Based Architecture**: ThunderPHP adopts a plugin-centric approach, making it easy to extend and customize your web applications. Choose from a variety of plugins to add functionality and features as needed.
 
 - **MVC Structure**: ThunderPHP follows the Model-View-Controller pattern, promoting a structured and organized codebase that separates concerns, enhances maintainability, and streamlines development.
@@ -20,14 +21,16 @@ This repository contains the ThunderPHP framework with a complete set of plugins
 All functionality is encapsulated within plugins, ensuring modularity, easy customization, and minimal dependencies.
 
 ## Current Branches
+
+- **`main`**: Contains updated code and is an default branch.
 - **`basic-auth`**: Handles basic authentication.
 - **`basic-admin`**: Focuses on admin functionalities.
 - **`users-managers`**: Manages user-related features.
+- **`user-roles`**: Handle user roles and permissions, allowing for a more fine-grained control over user access within the application.
 
 
 ## Future Plans and Plugins
 
-- **`users-roles`**: This plugin will handle user roles and permissions, allowing for a more fine-grained control over user access within the application.
 - **`menu-plugin`**: Designed to manage dynamic menus across the site, making it easy to create and update navigation structures.
 - **`slider-plugin`**: This plugin will provide the ability to create and manage image sliders, commonly used for homepages or featured content sections.
 - **`pages-plugin`**: A simple page management system, allowing the creation and organization of static pages such as About, Contact, etc.
