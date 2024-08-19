@@ -3,11 +3,22 @@
 if(!empty($row))
 {
 	$postdata = $req->post();
+	$filedata = $req->files();
 	$postdata['id'] = $row->id;
 
 	$csrf = csrf_verify($postdata);
 
-	if($csrf && $user->validate_update($postdata))
+	$files_ok = true;
+
+	if(!empty($filedata))
+	{
+		$postdata['image'] = $req->upload_files('image');
+
+		if(!empty($req->upload_errors))
+			$files_ok = false;
+	}
+
+	if($csrf && $files_ok && $user->validate_update($postdata))
 	{
 		if(isset($postdata['password']) && empty($postdata['password'])){
 			unset($postdata['password']);
@@ -21,6 +32,9 @@ if(!empty($row))
 
 		$user->update($row->id, $postdata);
 
+		if(!empty($postdata['image']) && file_exists($row->image))
+			unlink($row->image);
+
 		message_success("Record edited successfully!");
 		redirect($admin_route . '/' . $plugin_route . '/view/' . $row->id);
 	}
@@ -28,7 +42,7 @@ if(!empty($row))
 	if(!$csrf)
 		$user->errors['email'] = "Form Expired!";
 
-	set_value('errors', $user->errors);
+	set_value('errors', array_merge($user->errors, $req->upload_errors));
 
 }else{
 

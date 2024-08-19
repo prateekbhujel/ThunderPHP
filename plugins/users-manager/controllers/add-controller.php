@@ -1,10 +1,20 @@
 <?php
 
 $postdata = $req->post();
+$filedata = $req->files();
+
+$files_ok = true;
+if(!empty($filedata))
+{
+	$postdata['image'] = $req->upload_files('image');
+
+	if(!empty($req->upload_errors))
+		$files_ok = false;
+}
 
 $csrf = csrf_verify($postdata);
 
-if($csrf && $user->validate_insert($postdata))
+if($csrf && $files_ok && $user->validate_insert($postdata))
 {
 	$postdata['password'] = password_hash($postdata['password'], PASSWORD_DEFAULT);
 
@@ -19,5 +29,6 @@ if($csrf && $user->validate_insert($postdata))
 if(!$csrf)
 	$user->errors['email'] = "Form Expired!";
 
-set_value('errors', $user->errors);
+set_value('errors', array_merge($user->errors, $req->upload_errors));
+
 

@@ -119,12 +119,14 @@ class Model extends Database
 		return false;
 	}
 
-	public function delete(string|int $my_id)
+	public function delete(string|int $_my_id)
 	{
  
 		$query = "delete from $this->table ";
-		$query .= " where $this->primary_key = :my_id limit 1";
+		$query .= " where $this->primary_key = :_my_id limit 1";
 		
+		$data['_my_id'] = $_my_id;
+
 		return $this->query($query,$data);
 
 	}

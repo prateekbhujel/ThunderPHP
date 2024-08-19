@@ -1,5 +1,5 @@
 
-<form method="post" enctype="multipart/form-data">
+<form onsubmit="submit_form(event)" method="post" enctype="multipart/form-data">
 	
 	<div class="row g-3 col-md-6 mx-auto shadow p-4 rounded mt-4">
 			
@@ -8,8 +8,16 @@
 		<h4 class="text-center">Add New Record</h4>
 		
 		<label class="text-center">
+			
 			<img src="<?=get_image('')?>" class="img-thumbnail" style="cursor:pointer; width:100%;max-width:200px;max-height: 200px;object-fit: cover;">
-			<input type="file" name="image" class="d-none">
+			
+			<input onchange="displayImage(event)" type="file" name="image" class="d-none">
+
+			
+			<?php if(!empty($errors['image'])) :?>
+			  	<small class="text-danger"><?=$errors['image']?></small>
+			<?php endif;?>
+
 		</label>
 
 		<div class="mb-3 col-md-6">
@@ -59,7 +67,7 @@
 		 <small class="text-muted">(Leave password empty to keep the old one)</small>
 		<div class="mb-3 col-md-6">
 		  <label for="password" class="form-label">Password</label>
-		  <input name="password" value="<?=old_value('password','')?>" type="text" class="form-control" id="password" placeholder="Password">
+		  <input name="password" value="<?=old_value('password','')?>" type="password" class="form-control" id="password" placeholder="Password">
 
 		  <?php if(!empty($errors['password'])) :?>
 		  	<small class="text-danger"><?=$errors['password']?></small>
@@ -69,7 +77,7 @@
 
 		<div class="mb-3 col-md-6">
 		  <label for="retype_password" class="form-label">Retype Password</label>
-		  <input name="retype_password" type="text" class="form-control" id="retype_password" placeholder="Retype password">
+		  <input name="retype_password" type="password" class="form-control" id="retype_password" placeholder="Retype password">
 		</div>
 		
 		<div class="d-flex justify-content-between">
@@ -86,3 +94,37 @@
 	</div>
 
 </form>
+
+
+<script type="text/javascript">
+		
+		var valid_image = true;
+
+		function displayImage(e)
+		{
+			let allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+			let file = e.currentTarget.files[0];
+
+			if(!allowed.includes(file.type)){
+				alert("Only files of this type allowed: " + allowed.toString().replaceAll('image/', ' '));
+				valid_image = false;
+				return;
+			}
+
+			valid_image = true;
+			
+			e.currentTarget.parentNode.querySelector('img').src = URL.createObjectURL(file);
+
+		}
+
+		function submit_form(e)
+		{
+			if(!valid_image)
+			{
+				e.preventDefault();
+				alert("Please Add a Valid Image");
+				return;
+			}
+		}
+
+</script>

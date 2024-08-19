@@ -10,6 +10,9 @@ if(!empty($row))
 	{
 		$user->delete($row->id);
 
+		if(file_exists($row->image))
+			unlink($row->image);
+
 		message_success("Record deleted successfully!");
 		redirect($admin_route . '/' . $plugin_route);
 	}
