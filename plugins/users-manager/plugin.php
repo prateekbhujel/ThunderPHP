@@ -13,6 +13,8 @@ set_value([
 	'plugin_route'	=>'users',
 	'tables'		=> [
 							'users_table'     	=> 'users', 			// will contains users details here.
+						],
+	'optional_tables'		=> [
 							'roles_table' 	  	=> 'user_roles', 		// users roles are here [One user can have an multiple roles].
 							'permissions_table' => 'role_permissions',	// contains all the permissions of the User.
 							'roles_map_table' 	=> 'user_roles_map', 	// users assigned roles [which users mapped which roles].
@@ -60,7 +62,7 @@ add_filter('user_permissions', function($permissions){
 
 		$db 	= new \Core\Database;
 		
-		$query 	= "select * from " . $vars['tables']['roles_table'];
+		$query 	= "select * from " . $vars['optional_tables']['roles_table'];
 		$roles 	= $db->query($query);
 
 		if(is_array($roles))
