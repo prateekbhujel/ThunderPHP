@@ -1,26 +1,22 @@
 <?php
-
 /**
  * Plugin name: users-manager
  * Description: A way for admin to manage users.
  * 
  * 
 **/
-
 set_value([
-
-	'admin_route'	=>'admin',
-	'plugin_route'	=>'users',
-	'tables'		=> [
-							'users_table'     	=> 'users', 			// will contains users details here.
-						],
+	'admin_route'			=>'admin',
+	'plugin_route'			=>'users',
+	'tables'				=> [
+		'users_table'     	=> 'users', 			// will contains users details here.
+	],
 	'optional_tables'		=> [
-							'roles_table' 	  	=> 'user_roles', 		// users roles are here [One user can have an multiple roles].
-							'permissions_table' => 'role_permissions',	// contains all the permissions of the User.
-							'roles_map_table' 	=> 'user_roles_map', 	// users assigned roles [which users mapped which roles].
-						],
+		'roles_table' 	  	=> 'user_roles', 		// users roles are here [One user can have an multiple roles].
+		'permissions_table' => 'role_permissions',	// contains all the permissions of the User.
+		'roles_map_table' 	=> 'user_roles_map', 	// users assigned roles [which users mapped which roles].
+	],
 ]);
-
 
 /** Check if all required tables exist **/
 $db = new \Core\Database();
@@ -37,10 +33,9 @@ if (!$db->table_exists($tables)) {
     }
 }
 
-
 /** set user permissions for this plugin **/
-add_filter('permissions',function($permissions){
-
+add_filter('permissions',function($permissions)
+{
 	$permissions[] = 'all';
 	$permissions[] = 'view_users';
 	$permissions[] = 'view_user_details';
@@ -51,40 +46,12 @@ add_filter('permissions',function($permissions){
 	return $permissions;
 });
 
-/** set permissions for the current user **/
-add_filter('user_permissions', function($permissions){
-
-	$ses = new \Core\Session;
-	
-	if($ses->is_logged_in())
-	{
-		$vars	= get_value();
-
-		$db 	= new \Core\Database;
-		
-		$query 	= "select * from " . $vars['optional_tables']['roles_table'];
-		$roles 	= $db->query($query);
-
-		if(is_array($roles))
-		{
-
-
-		}else
-		{
-			$permissions[] = 'all';
-		}
-	}
-
-	return $permissions;
-});
-
 /** add to admin links **/
-add_filter('basic-admin_before_admin_links',function($links){
-
+add_filter('basic-admin_before_admin_links',function($links)
+{
 	if(user_can('view_users'))
 	{
 		$vars        = get_value();
-
 		$obj         = (object)[];
 		$obj->title  = 'Users';
 		$obj->link   = ROOT . '/' . $vars['admin_route'] . '/' .$vars['plugin_route'];
@@ -92,17 +59,13 @@ add_filter('basic-admin_before_admin_links',function($links){
 		$obj->parent = 0;
 		$links[]  	 = $obj;
 	}
-
 		return $links;
-
 });
-
 
 /** run this after a form submit **/
 add_action('controller',function(){
 	$req = new \Core\Request;
 	$vars = get_value();
-
 	$admin_route = $vars['admin_route'];
 	$plugin_route = $vars['plugin_route'];
 
@@ -110,32 +73,23 @@ add_action('controller',function(){
 	{
 		$ses 	= new \Core\Session();
 		$user 	= new \UsersManager\User();
-
 		$id = URL(3) ?? null;
-		
 		if($id)
 			$row = $user->first(['id'=>$id]);
 
 		if(URL(2) == 'add')
 		{
 			require plugin_path('controllers/add-controller.php');
-
 		}else
 		if(URL(2) == 'edit')
 		{
-			
 			require plugin_path('controllers/edit-controller.php');
-
 		}else
 		if(URL(2) == 'delete')
 		{
-
 			require plugin_path('controllers/delete-controller.php');
-
 		}
-
 	}
-
 });
 
 

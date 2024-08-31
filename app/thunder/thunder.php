@@ -226,17 +226,15 @@ class Thunder
 			{
 				/** run single file **/
 				$file = $folder . $file_name;
-
 				$this->message("Migrating file:". $file . "\n\r");
-
 				require_once $file;
 
 				$class_name = basename($file);
-				preg_match("/[a-zA-Z]+\.php$/", $class_name, $match);
+				preg_match("/[a-zA-Z_]+\.php$/", $class_name, $match);
 				$class_name = ucfirst(str_replace(".php", "", $match[0]));
+				$class_name = trim($class_name, '_');
 
 				$myclass = new ("\Migration\\$class_name");
-
 				if($action == 'migrate')
 				{
 					$myclass->up();
@@ -244,31 +242,25 @@ class Thunder
 				{
 					$myclass->down();
 				}
-
 				$this->message("Migration complete!");
 				$this->message("File: " . $file_name);
-
 			}else
 			{
 				/** get all files from folder **/
 				$files = glob($folder.'*.php');
-
 				if(!empty($files))
 				{
-
 					foreach ($files as $file)
 					{
-
 						$this->message("Migrating file:". $file . "\n\r");
-
 						require_once $file;
 
 						$class_name = basename($file);
-						preg_match("/[a-zA-Z]+\.php$/", $class_name, $match);
+						preg_match("/[a-zA-Z_]+\.php$/", $class_name, $match);
 						$class_name = ucfirst(str_replace(".php", "", $match[0]));
+						$class_name = trim($class_name, '_');
 
 						$myclass = new ("\Migration\\$class_name");
-
 						if($action == 'migrate')
 						{
 							$myclass->up();
@@ -276,11 +268,8 @@ class Thunder
 						{
 							$myclass->down();
 						}
-
 					}
-
 					$this->message("Migration complete!");
-
 				}else
 				{
 					$this->message("No migration files found in specified folder");
@@ -289,10 +278,8 @@ class Thunder
 		}else
 		if($action == 'migrate:refresh')
 		{
-
 			$this->migrate(['thunder','migrate:rollback',$folder,$file_name]);
 			$this->migrate(['thunder','migrate',$folder,$file_name]);
-
 		}
 	}
 	

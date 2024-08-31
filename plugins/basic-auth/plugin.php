@@ -6,18 +6,20 @@
  * Description: Lets user login and signup.
  * 
  **/
-
 set_value([
-
-	'login_page'			=>'login',
-	'signup_page'			=>'signup',
-	'logout_page'			=>'logout',
-	'forgot_page'			=>'forgot',
-	'admin_plugin_route'	=>'admin',
-	'tables'				=>	[
-									'users_table' => 'users',			
-								],
-
+	'login_page'				=>	'login',
+	'signup_page'				=>	'signup',
+	'logout_page'				=>	'logout',
+	'forgot_page'				=>	'forgot',
+	'admin_plugin_route'		=>	'admin',
+	'tables'					=>	[
+		'users_table' 			=> 'users',
+	],
+	'optional_tables'			=> [
+		'roles_table' 	  		=> 'user_roles',
+		'permissions_table' 	=> 'role_permissions',
+		'roles_map_table' 		=> 'user_roles_map',
+	],
 ]);
 
 /** Check if all required tables exist **/
@@ -27,14 +29,12 @@ $tables = get_value()['tables'];
 if (!$db->table_exists($tables)) {
     $missingCount = count($db->missing_tables);
     $pluginId = plugin_id();
-
     if ($missingCount === 1) {
         ddd("Missing database table in {$pluginId} plugin: " . implode(", ", $db->missing_tables));
     } else {
         ddd("Missing database tables in {$pluginId} plugin: " . implode(", ", $db->missing_tables));
     }
 }
-
 
 /** run this after a form submit **/
 add_action('controller',function(){
@@ -56,7 +56,36 @@ add_action('controller',function(){
 		require plugin_path('controllers/LogoutController.php');
 	}
 });
+/** set permissions for the current user **/
+add_filter('user_permissions', function($permissions){
 
+	$ses = new \Core\Session;
+
+	if($ses->is_logged_in())
+	{
+		$vars	= get_value();
+		$db 	= new \Core\Database;
+		$query 	= "select * from " . $vars['optional_tables']['roles_table'];
+		$roles 	= $db->query($query);
+
+		if(is_array($roles))
+		{
+			$user_id = $ses->user('id');
+			$query = "select permission from " . $vars['optional_tables']['permissions_table'] . "
+			 where role_id in
+			(select role_id from " . $vars['optional_tables']['roles_map_table'] . "
+			 where user_id = :user_id)
+			";
+			$perms = $db->query($query, ['user_id'=>$user_id]);
+			if ($perms)
+				$permissions = array_column($perms, 'permission');
+		}else
+		{
+			$permissions[] = 'all';
+		}
+	}
+	return $permissions;
+});
 /** adding Menu to the links **/
 add_filter('header-footer_before_menu_links', function($links){
 
@@ -106,12 +135,10 @@ add_filter('header-footer_before_menu_links', function($links){
 	return $links;
 });
 
-
 /** displays the view file **/
-add_action('view',function(){
-
+add_action('view',function()
+{
 	$vars = get_value();
-
 	if(page() == $vars['login_page'])
 	{
 		require plugin_path('views/login.php');
@@ -121,24 +148,15 @@ add_action('view',function(){
 		$errors = $vars['errors'] ?? [];
 		require plugin_path('views/signup.php');
 	}
-
 });
-
 
 /** for manipulating data after a query operation **/
-add_filter('after_query',function($data){
-
-	
+add_filter('after_query',function($data)
+{
 	if(empty($data['result']))
 		return $data;
-
 	foreach ($data['result'] as $key => $row) {
-		
-
-
+		//
 	}
-
 	return $data;
 });
-
-

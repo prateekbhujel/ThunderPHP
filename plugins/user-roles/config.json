@@ -1,12 +1,12 @@
 {
-	"name":"Users Manager",
+	"name":"User Roles",
 	"version": "1.0.0",
-	"id":"users-manager",
+	"id":"user-roles",
 	"author":"Pratik Bhujel",
 	"author website":"https://pratikbhujel.com.np",
 	"thumbnail":"thumbnail.jpg",
 	"active":true,
-	"index":3,
+	"index":4,
 	"routes": {
 		"on":["admin"],
 		"off":[]
