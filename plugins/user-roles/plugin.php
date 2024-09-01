@@ -30,6 +30,7 @@ add_filter('permissions',function($permissions){
 	$permissions[] = 'view_roles';
 	$permissions[] = 'add_role';
 	$permissions[] = 'edit_role';
+	$permissions[] = 'edit_permissions';
 	$permissions[] = 'delete_role';
 
 	return $permissions;
@@ -64,7 +65,7 @@ add_action('controller',function()
 	if(URL(1) == $vars['plugin_route'] && $req->posted())
 	{
 		$ses = new \Core\Session;
-		$user_role = new \UserRole\User_role;
+		$user_role = new \UserRoles\User_role;
 
 		$id = URL(3) ?? null;
 		if($id)
@@ -80,6 +81,10 @@ add_action('controller',function()
 		if(URL(2) == 'delete')
 		{
 			require plugin_path('controllers/delete-controller.php');
+		}else
+		{
+			$user_permission = new \UserRoles\Role_permission;
+			require plugin_path('controllers/list-controller.php');
 		}
 	}
 });
@@ -95,7 +100,7 @@ add_action('basic-admin_main_content',function()
 
 	$errors = $vars['errors'] ?? [];
 
-	$user_role = new \UserRole\User_role;
+	$user_role = new \UserRoles\User_role;
 
 	if(URL(1) == $vars['plugin_route']){
 

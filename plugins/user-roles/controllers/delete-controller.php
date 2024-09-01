@@ -3,28 +3,24 @@
 if(!empty($row))
 {
 	$postdata = $req->post();
-
 	$csrf = csrf_verify($postdata);
 
 	if($csrf)
 	{
-		if(user_can('delete_user'))
+		if(user_can('delete_role'))
 		{
-			$user->delete($row->id);
-
-			if(file_exists($row->image))
-				unlink($row->image);
+			$user_role->delete($row->id);
 
 			message_success("Record deleted successfully!");
 			redirect($admin_route . '/' . $plugin_route);
 		}
 	}
 
-	$user->errors['email'] = "Form Expired!";
+	$user_role->errors['role'] = "Form Expired!";
 
-	set_value('errors', $user->errors);
-
-}else{
-
+	set_value('errors', $user_role->errors);
+}
+else
+{
 	message_fail("Record not found!");
 }

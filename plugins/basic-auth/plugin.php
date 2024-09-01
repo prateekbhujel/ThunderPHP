@@ -2,9 +2,7 @@
 
 /**
  * Plugin name: Basic Authentication.
- * 
  * Description: Lets user login and signup.
- * 
  **/
 set_value([
 	'login_page'				=>	'login',
@@ -72,9 +70,9 @@ add_filter('user_permissions', function($permissions){
 		{
 			$user_id = $ses->user('id');
 			$query = "select permission from " . $vars['optional_tables']['permissions_table'] . "
-			 where role_id in
+			 where disabled = 0 && role_id in
 			(select role_id from " . $vars['optional_tables']['roles_map_table'] . "
-			 where user_id = :user_id)
+			 where disabled = 0 && user_id = :user_id)
 			";
 			$perms = $db->query($query, ['user_id'=>$user_id]);
 			if ($perms)

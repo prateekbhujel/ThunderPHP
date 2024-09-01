@@ -6,7 +6,7 @@
 	"author website":"https://pratikbhujel.com.np",
 	"thumbnail":"thumbnail.jpg",
 	"active":true,
-	"index":1,
+	"index":2,
 	"routes": {
 		"on":["admin"],
 		"off":[]

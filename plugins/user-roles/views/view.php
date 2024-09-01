@@ -1,40 +1,19 @@
 <?php if(user_can('view_user_details')):?>
 
 	<?php if(!empty($row)):?>
-
 		<div class="row g-3 col-md-6 mx-auto shadow p-4 rounded mt-4">
-					
 			<h4 class="text-center">View Record</h4>
-			
-			<label class="text-center">
-				<img src="<?=get_image($row->image)?>" class="img-thumbnail" style="width:100%;max-width:200px;max-height: 200px;object-fit: cover;">
-			</label>
 
 			<div class="mb-3 col-md-6">
-			  <label for="first_name" class="form-label">First Name</label>
-			  <div class="form-control"><?=esc($row->first_name)?></div>
+			  <label for="role" class="form-label">Role</label>
+			  <div class="form-control"><?=esc($row->role)?></div>
 			</div>
 
 			<div class="mb-3 col-md-6">
-			  <label for="last_name" class="form-label">Last Name</label>
-			  <div class="form-control"><?=esc($row->last_name)?></div>
+				<label for="disabled" class="form-label">Active</label>
+				<div class="form-control"><?=esc($row->disabled ? "No" : "Yes")?></div>
 			</div>
 
-			<div class="mb-3 col-md-6">
-			  <label for="email" class="form-label">Email</label>
-			  <div class="form-control"><?=esc($row->email)?></div>
-			</div>
-
-			<div class="mb-3 col-md-6">
-				<label for="gender" class="form-label">Gender</label>
-				<div class="form-control"><?=esc($row->gender)?></div>
-			</div>
-
-			<div class="mb-3 col-md-12">
-				<label for="gender" class="form-label">Roles</label>
-				<div class="form-control">Not available!</div>
-			</div>
-		
 			<div class="d-flex justify-content-between">
 
 				<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>">

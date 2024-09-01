@@ -20,7 +20,7 @@ if(!empty($row))
 
 	if($csrf && $files_ok && $user->validate_update($postdata))
 	{
-		if(user_cam('edit_user'))
+		if(user_can('edit_user'))
 		{
 			if(isset($postdata['password']) && empty($postdata['password'])){
 				unset($postdata['password']);

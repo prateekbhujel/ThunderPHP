@@ -1,6 +1,6 @@
 <?php
 
-namespace UserRole;
+namespace UserRoles;
 
 use \Model\Model; 
 
@@ -11,20 +11,17 @@ defined('ROOT') or die("Direct script access denied");
  */
 class User_role extends Model
 {
-
 	protected $table = 'user_roles';
 	public $primary_key = 'id';
-
 	protected $allowedColumns = [
 		'role',
 		'disabled',
 	];
-	
+
 	protected $allowedUpdateColumns = [
 		'role',
 		'disabled',
 	];
-
 
 	public function validate_insert(array $data):bool
 	{
@@ -56,7 +53,7 @@ class User_role extends Model
  		{
  			$this->errors['role'] = 'Role is required';
  		}else
- 		if($this->first($email_arr,$email_arr_not))
+ 		if($this->first($role_arr, $role_arr_not))
  		{
  			$this->errors['role'] = 'That Role is already in use';
  		}else 		
