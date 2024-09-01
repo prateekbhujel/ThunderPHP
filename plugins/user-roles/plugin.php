@@ -124,11 +124,11 @@ add_action('basic-admin_main_content',function()
 			require plugin_path('views/view.php');
 		}else
 		{
-			$user_role->limit = 30;
+			$user_role->limit = 1000;
+			$user_role::$query_id = 'get-roles';
 			$rows = $user_role->getAll();
 			require plugin_path('views/list.php');
 		}
-
 	}
 });
 
@@ -137,11 +137,13 @@ add_filter('after_query',function($data)
 {
 	if(empty($data['result']))
 		return $data;
-
-	foreach ($data['result'] as $key => $row)
-	{
-		//Do something
+	if ($data['query_id'] == 'get-roles') {
+		$user_permission = new \UserRoles\Role_permission;
+		foreach ($data['result'] as $key => $row) {
+			$permissions = $user_permission->where(['role_id' => $row->id, 'disabled' => 0]);
+			if($permissions)
+				$data ['result'][$key]->permissions = array_column($permissions, 'permission');
+		}
 	}
-
 	return $data;
 });

@@ -24,15 +24,16 @@
 			<?php if(!empty($rows)):?>
 				<?php foreach($rows as $row):?>
 					<tr>	
-						
-						<td><?=esc($row->id)?></td>
-						
+						<td>
+							<?=esc($row->id)?>
+							</td>
+
 						<td>
 							<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>/view/<?=$row->id?>" class="text-decoration-none text-info">
 								<?=esc($row->first_name)?>
 							</a>
 						</td>
-						
+
 						<td>
 							<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>/view/<?=$row->id?>" class="text-decoration-none text-info">
 								<?=esc($row->last_name)?>
@@ -43,10 +44,18 @@
 							<img src="<?=get_image($row->image)?>" class="img-thumbnail" style="width:80px;height:80px;object-fit: cover;">
 						</td>
 						
-						<td><?=esc(ucfirst($row->gender))?></td>
+						<td>
+							<?=esc(ucfirst($row->gender))?>
+						</td>
 						
 						<td>
-							Roles
+							<?php if(!empty($row->roles)) :?>
+								<?php foreach($row->roles as $role) :?>
+									<div>
+										<i> <?= esc($role) ?> </i>
+									</div>
+								<?php endforeach;?>
+							<?php endif;?>
 						</td>
 						
 						<td><?=get_date($row->date_created)?></td>

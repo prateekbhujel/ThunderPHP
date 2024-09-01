@@ -11,7 +11,7 @@ defined('ROOT') or die("Direct script access denied");
  */
 class Database
 {
-	private static $query_id 	= '';
+	public static $query_id 	= '';
 	public $affected_rows 		= 0;
 	public $insert_id 			= 0;
 	public $error 				= '';

@@ -42,7 +42,7 @@
 									<?php if (!empty($perms)) :$num=0?>
 										<?php foreach($perms as $perm) : $num++?>
 											<div class="form-check col-md-6">
-											  <input name="checkbox_<?=$row->id?>_<?=$num?>" class="form-check-input" type="checkbox" value="<?=$perm?>" id="check-<?=$row->id?>-<?=$num?>">
+											  <input <?= in_array($perm, $row->permissions ?? []) ? ' checked' :  '' ?> name="checkbox_<?=$row->id?>_<?=$num?>" class="form-check-input" type="checkbox" value="<?=$perm?>" id="check-<?=$row->id?>-<?=$num?>">
 											  <label class="form-check-label" for="check-<?=$row->id?>-<?=$num?>" style="cursor: pointer;">
 											  	<?= esc(ucfirst(str_replace("_", " ", $perm))) ?>
 											  </label>

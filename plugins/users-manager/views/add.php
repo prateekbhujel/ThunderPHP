@@ -1,24 +1,15 @@
 <?php if(user_can('add_user')) :?>
-
 	<form onsubmit="submit_form(event)" method="post" enctype="multipart/form-data">
-		
 		<div class="row g-3 col-md-6 mx-auto shadow p-4 rounded mt-4">
-				
 			<?=csrf()?>
-			
 			<h4 class="text-center">Add New Record</h4>
-			
 			<label class="text-center">
-				
 				<img src="<?=get_image('')?>" class="img-thumbnail" style="cursor:pointer; width:100%;max-width:200px;max-height: 200px;object-fit: cover;">
-				
 				<input onchange="displayImage(event)" type="file" name="image" class="d-none">
-
 				
 				<?php if(!empty($errors['image'])) :?>
 				  	<small class="text-danger"><?=$errors['image']?></small>
 				<?php endif;?>
-
 			</label>
 
 			<div class="mb-3 col-md-6">
@@ -62,9 +53,28 @@
 				<?php if(!empty($errors['gender'])) :?>
 			  		<small class="text-danger"><?=$errors['gender']?></small>
 			  	<?php endif;?>
-
 			</div>
 
+			<div class="mb-3 col-md-12 border p-2">
+				<label>Roles :</label>
+				<hr>
+				<div class="row g-2">
+					<?php
+						$query = "SELECT * FROM user_roles WHERE disabled = 0";
+						$roles = $user_role->query($query);
+					?>
+					<?php if (!empty($roles)) :$num=0?>
+						<?php foreach($roles as $role) : $num++?>
+							<div class="form-check col-md-6">
+							  	<input name="role_<?=$num?>" class="form-check-input" type="checkbox" value="<?=$role->id?>" id="check-<?=$num?>">
+							  	<label class="form-check-label" for="check-<?=$num?>" style="cursor: pointer;">
+							  		<?= esc($role->role) ?>
+							  	</label>
+							</div>
+						<?php endforeach;?>
+					<?php endif;?>
+				</div>
+			</div>
 			 <small class="text-muted">(Leave password empty to keep the old one)</small>
 			<div class="mb-3 col-md-6">
 			  <label for="password" class="form-label">Password</label>

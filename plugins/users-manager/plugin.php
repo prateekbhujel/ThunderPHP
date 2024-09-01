@@ -2,8 +2,6 @@
 /**
  * Plugin name: users-manager
  * Description: A way for admin to manage users.
- * 
- * 
 **/
 set_value([
 	'admin_route'			=>'admin',
@@ -92,22 +90,19 @@ add_action('controller',function(){
 	}
 });
 
-
 /** displays the view file **/
-add_action('basic-admin_main_content',function(){
-
+add_action('basic-admin_main_content',function()
+{
 	$ses = new \Core\Session;
 	$vars = get_value();
-	
+
 	$admin_route = $vars['admin_route'];
 	$plugin_route = $vars['plugin_route'];
 	$user = new \UsersManager\User;
-	
 	$errors = $vars['errors'] ?? [];
 
 	if(URL(1) == $vars['plugin_route'])
 	{
-
 		$id = URL(3) ?? null;
 		
 		if($id)
@@ -115,51 +110,46 @@ add_action('basic-admin_main_content',function(){
 
 		if(URL(2) == 'add')
 		{
+			$user_role = new \UsersManager\User_role;
 			require plugin_path('views/add.php');
-
 		}else
 		if(URL(2) == 'edit')
 		{
-			
+			$user_role = new \UsersManager\User_role;
 			require plugin_path('views/edit.php');
-
 		}else
 		if(URL(2) == 'delete')
 		{
-
 			require plugin_path('views/delete.php');
-
 		}else
 		if(URL(2) == 'view')
 		{
-
 			require plugin_path('views/view.php');
-
 		}else
 		{
-
 			$user->limit = 30;
+			$user::$query_id = 'get-users';
 			$rows = $user->getAll();
 			require plugin_path('views/list.php');
-
 		}
 	}
 });
 
-
 /** for manipulating data after a query operation **/
-add_filter('after_query',function($data){
-
-	
+add_filter('after_query',function($data)
+{
 	if(empty($data['result']))
 		return $data;
-
-	foreach ($data['result'] as $key => $row) {
-		
-
-
+	if($data['query_id'] == 'get-users')
+	{
+		$role_map = new \UsersManager\User_roles_map;
+		foreach ($data['result'] as $key => $row) {
+			$query = "SELECT * FROM user_roles WHERE disabled = 0 AND  id IN (SELECT role_id FROM user_roles_map WHERE disabled = 0 AND user_id = :user_id)";
+			$roles = $role_map->query($query, ['user_id' => $row->id]);
+			if($roles)
+				$data ['result'][$key]->roles = array_column($roles, 'role');
+		}
 	}
-
 	return $data;
 });
 
