@@ -1,6 +1,10 @@
 <?php if(user_can('view_users')) :?>
-
 	<div class="table table-responsive">
+		<label><i>Page: <?=$pager->page_number?> </i></label>
+		<form class="input-group my-3 mx-auto">
+			<input placeholder="Search by name" type="text" class="form-control" value="<?=old_value('find', '', 'get')?>" name="find" autofocus="on">
+			<button class="input-group-text btn btn-primary">Search</button>
+		</form>
 		<table class="table table-striped table-bordered">
 			<tr>
 				<th>S.N</th>
@@ -93,6 +97,7 @@
 			<?php endif;?>
 		</table>
 	</div>
+	<?=$pager->display()?>
 
 <?php else :?>
 

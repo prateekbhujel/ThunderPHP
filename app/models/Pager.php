@@ -9,7 +9,6 @@ defined('ROOT') or die("Direct script access denied");
  */
 class Pager
 {
-	
 	public $links 		= [];
 	public $limit 		= 10;
 	public $offset 		= 0;
@@ -44,7 +43,7 @@ class Pager
 
 	}
 
-	public function display()
+	public function display(): void
 	{
 		?>
 		<nav aria-label="Page navigation example">
@@ -63,7 +62,7 @@ class Pager
 		<?php
 	}
 
-	public function displayTailwind():string
+	public function displayTailwind(): void
 	{
 		?>
 		<nav aria-label="Page navigation example">
@@ -82,7 +81,7 @@ class Pager
 		<?php
 	}
 
-	public function displayCustom():string
+	public function displayCustom(): void
 	{
 		?>
 		<nav aria-label="Page navigation example">
@@ -101,5 +100,4 @@ class Pager
 		<?php
 	}
 
-	
 }

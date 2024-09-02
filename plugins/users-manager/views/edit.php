@@ -67,7 +67,7 @@
 						<?php if (!empty($roles)) :$num=0?>
 							<?php foreach($roles as $role) : $num++?>
 								<div class="form-check col-md-6">
-								  	<input <?= in_array($role->role, $row->roles ?? []) ? ' checked' :  '' ?> name="role_<?=$num?>" class="form-check-input" type="checkbox" value="<?=$role->id?>" id="check-<?=$num?>">
+								  	<input <?= in_array($role->id, $row->role_ids ?? []) ? ' checked' :  '' ?> name="role_<?=$num?>" class="form-check-input" type="checkbox" value="<?=$role->id?>" id="check-<?=$num?>">
 								  	<label class="form-check-label" for="check-<?=$num?>" style="cursor: pointer;">
 							  			<?= esc($role->role) ?>
 								  	</label>

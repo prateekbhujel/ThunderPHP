@@ -39,7 +39,7 @@ add_filter('permissions',function($permissions){
 /** add to amin links **/
 add_filter('basic-admin_before_admin_links',function($links)
 {
-	if(user_can('view_users'))
+	if(user_can('view_roles'))
 	{
 		$vars = get_value();
 

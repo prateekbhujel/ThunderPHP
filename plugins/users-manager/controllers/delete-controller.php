@@ -8,7 +8,7 @@ if(!empty($row))
 
 	if($csrf)
 	{
-		if(user_can('delete_user'))
+		if(user_can('delete_role'))
 		{
 			$user->delete($row->id);
 

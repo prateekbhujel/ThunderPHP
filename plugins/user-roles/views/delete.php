@@ -1,4 +1,4 @@
-<?php if(user_can('delete_user')):?>
+<?php if(user_can('delete_role')):?>
 	<?php if(!empty($row)):?>
 		<form method="post">
 			<div class="row g-3 col-md-6 mx-auto shadow p-4 rounded mt-4">

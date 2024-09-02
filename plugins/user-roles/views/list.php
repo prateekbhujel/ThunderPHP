@@ -1,4 +1,4 @@
-<?php if(user_can('view_users')) :?>
+<?php if(user_can('view_roles')) :?>
 	<form method="post">
 		<?=csrf()?>
 		<div class="table table-responsive">
@@ -15,9 +15,9 @@
 						</div>
 					</th>
 					<th>
-						<?php if(user_can('add_user')) :?>
+						<?php if(user_can('add_role')) :?>
 							<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>/add">
-								<button class="btn btn-bd-primary btn-sm">
+								<button type="button" class="btn btn-bd-primary btn-sm">
 									<i class="fas fa-plus me-2"></i> Add new
 								</button>
 							</a>
@@ -54,7 +54,7 @@
 							<td>
 								<?php if(user_can('edit_role')) :?>
 									<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>/edit/<?=$row->id?>">
-										<button class="btn btn-warning btn-sm">
+										<button type="button" class="btn btn-warning btn-sm">
 											<i class="fas fa-pen-to-square me-2"></i>
 										</button>
 									</a>
@@ -62,7 +62,7 @@
 
 								<?php if(user_can('delete_role')) :?>
 									<a href="<?=ROOT?>/<?=$admin_route?>/<?=$plugin_route?>/delete/<?=$row->id?>">
-										<button class="btn btn-danger btn-sm">
+										<button type="button" class="btn btn-danger btn-sm">
 											<i class="fas fa-trash-can"></i>
 										</button>
 									</a>

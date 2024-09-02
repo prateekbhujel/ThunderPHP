@@ -32,7 +32,15 @@
 
 			<div class="mb-3 col-md-12">
 				<label for="gender" class="form-label">Roles</label>
-				<div class="form-control">Not available!</div>
+				<div class="form-control">
+					<?php if(!empty($row->roles)) :?>
+						<?php foreach($row->roles as $role) :?>
+							<div>
+								<i> <?= esc($role) ?> </i>
+							</div>
+						<?php endforeach ;?>
+					<?php endif ;?>
+				</div>
 			</div>
 		
 			<div class="d-flex justify-content-between">

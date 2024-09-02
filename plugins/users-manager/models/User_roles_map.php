@@ -11,7 +11,7 @@ defined('ROOT') or die("Direct script access denied");
  */
 class User_roles_map extends Model
 {
-	protected $table = 'user_roles_maps';
+	protected $table = 'user_roles_map';
 	public $primary_key = 'id';
 
 	protected $allowedColumns = [

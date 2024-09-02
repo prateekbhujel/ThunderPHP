@@ -1,4 +1,4 @@
-<?php if(user_can('edit_user')) :?>
+<?php if(user_can('edit_role')) :?>
 
 	<?php if(!empty($row)):?>
 

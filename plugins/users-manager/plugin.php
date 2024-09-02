@@ -69,8 +69,10 @@ add_action('controller',function(){
 
 	if(URL(1) == $vars['plugin_route'] && $req->posted())
 	{
-		$ses 	= new \Core\Session();
-		$user 	= new \UsersManager\User();
+		$ses 			= new \Core\Session;
+		$user 			= new \UsersManager\User;
+		$user_roles_map = new \UsersManager\User_roles_map;
+
 		$id = URL(3) ?? null;
 		if($id)
 			$row = $user->first(['id'=>$id]);
@@ -105,8 +107,10 @@ add_action('basic-admin_main_content',function()
 	{
 		$id = URL(3) ?? null;
 		
-		if($id)
+		if($id){
+			$user::$query_id = 'get-users';
 			$row = $user->first(['id'=>$id]);
+		}
 
 		if(URL(2) == 'add')
 		{
@@ -127,9 +131,21 @@ add_action('basic-admin_main_content',function()
 			require plugin_path('views/view.php');
 		}else
 		{
-			$user->limit = 30;
+			$limit = 30;
+			$pager = new \core\Pager($limit);
+			$offset = $pager->offset;
+
+			$user->limit = $limit;
+			$user->offset = $offset;
 			$user::$query_id = 'get-users';
-			$rows = $user->getAll();
+
+			if (!empty($_GET['find'])) {
+				$find = '%' . trim($_GET['find']) . '%';
+				$query = "SELECT * FROM users WHERE (first_name LIKE :find || last_name LIKE :find) LIMIT $limit OFFSET $offset";
+				$rows = $user->query($query, ['find' => $find]);
+			}else {
+				$rows = $user->getAll();
+			}
 			require plugin_path('views/list.php');
 		}
 	}
@@ -148,6 +164,13 @@ add_filter('after_query',function($data)
 			$roles = $role_map->query($query, ['user_id' => $row->id]);
 			if($roles)
 				$data ['result'][$key]->roles = array_column($roles, 'role');
+
+			/** get user's roles. **/
+			$user_roles_map = new \UsersManager\User_roles_map;
+			$role_ids = $user_roles_map->where(['user_id' => $row->id, 'disabled' => 0]);
+			if($role_ids) {
+				$data['result'][$key]->role_ids = array_column($role_ids, 'role_id');
+			}
 		}
 	}
 	return $data;

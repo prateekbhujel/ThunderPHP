@@ -1,4 +1,4 @@
-<?php if(user_can('view_user_details')):?>
+<?php if(user_can('view_role_details')):?>
 
 	<?php if(!empty($row)):?>
 		<div class="row g-3 col-md-6 mx-auto shadow p-4 rounded mt-4">

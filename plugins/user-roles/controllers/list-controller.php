@@ -21,7 +21,8 @@ if($csrf)
         /** Save to database. **/
         foreach ($data as $id => $permissions)
         {
-            foreach ($permissions as $perm) {
+            foreach ($permissions as $perm)
+            {
                 $row = $user_permission->first(['role_id' => $id, 'permission' => $perm]);
                 if ($row) {
                     $user_permission->update($row->id, ['disabled' => 0]);
